@@ -1,0 +1,28 @@
+<app-arcgis-map (checked)="getPublishtime()"></app-arcgis-map>
+<!-- 弹出框 -->
+<div class="popover" [ngStyle]="popoverStyle" *ngIf="showPop">
+    <h3 class="header">
+        <div class="list">
+            <ng-container *ngFor="let item of server.elements">
+                <span [ngClass]="{'active': item.active}" (click)="changeLayer(item)" *ngIf="item.hasChart">{{item.name}}</span>
+            </ng-container>
+        </div>
+        <span class="icon-close" (click)="showPop=false"><i nz-icon nzType="close" nzTheme="outline"></i></span>
+    </h3>
+    <div class="pop-content">
+        <div nz-row nzGutter="0">
+            <div nz-col nzSpan="24" nzOffset="0">
+                <span class="title">{{selectedPoly.name}}-{{selectedType.name}}预报</span>
+                <span class="unit">{{selectedType.seriesRightName}}</span>
+            </div>
+            <!-- <div nz-col nzSpan="3" nzOffset="17">
+                <button nz-button [nzSize]="'small'" nzType="primary" (click)="getVedioList('haiyan')">大面图片</button>
+            </div> -->
+            <div nz-col nzSpan="24" nzOffset="0">
+                <nz-spin nzTip="Loading..." [nzSpinning]="isLoading">
+                    <app-echarts [chartOption]='chartData'></app-echarts>
+                </nz-spin>
+            </div>
+        </div>
+    </div>
+</div>
