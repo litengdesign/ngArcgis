@@ -13,7 +13,7 @@
         <div nz-row nzGutter="0">
             <div nz-col nzSpan="24" nzOffset="0">
                 <span class="title">{{selectedPoly.name}}-{{selectedType.name}}预报</span>
-                <span class="unit">{{selectedType.seriesRightName}}</span>
+                <span class="unit">{{selectedType.seriesRightName}}({{selectedType.unit}})</span>
             </div>
             <div nz-col nzSpan="24" nzOffset="0">
                 <app-echarts [chartOption]='chartData'></app-echarts>
@@ -21,7 +21,7 @@
             <div nz-col nzSpan="24" nzOffset="0" *ngIf="selectedType.name=='潮位'">
                 <nz-table #basicTable nzVirtualScroll [nzVirtualItemSize]="54" [nzData]="tideList"
                     [nzVirtualForTrackBy]="trackByIndex" nzSize="small" [nzFrontPagination]="false"
-                    [nzShowPagination]="false" nzBordered="true" [nzScroll]="{ x: '0px', y: '140px' }">
+                    [nzShowPagination]="false" nzBordered="true" [nzScroll]="{ x: '0px', y: '140px' }" [nzLoading]="loading">
                     <thead>
                         <tr>
                             <th nzWidth="128px">日期</th>

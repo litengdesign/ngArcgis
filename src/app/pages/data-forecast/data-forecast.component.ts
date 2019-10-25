@@ -143,6 +143,9 @@ export class DataForecastComponent implements OnInit, AfterViewInit, OnDestroy {
   }
   //改变图层类型
   changeLayer(item) {
+    //停止播放
+    this.playKey = 1;
+    this.stopLayer();
     if (this.showPop) {
       this.showPop = false;
       this.chartData = null;
@@ -212,6 +215,13 @@ export class DataForecastComponent implements OnInit, AfterViewInit, OnDestroy {
   }
   //获取曲线数据
   getChartData($event) {
+    this.stopLayer();
+    this.server.elements.forEach(element => {
+      element.active = false;
+      if (element.name == this.selectedType.name) {
+        element.active = true;
+      }
+    })
     this.activePoint = $event.mapPoint;
     const screenPoint = this.server.view.toScreen($event.mapPoint);
     this.dealStyle(screenPoint)
@@ -267,11 +277,11 @@ export class DataForecastComponent implements OnInit, AfterViewInit, OnDestroy {
           formatter:  (params) =>{
             return params.length > 1?
             [
-              this.selectedType.seriesRightName+'：' + params[0].value,
+              this.selectedType.seriesRightName + '：' + params[0].value + this.selectedType.unit,
               this.selectedType.seriesLeftName + '：' + params[1].value[dims.lable],
               '时间：' + params[1].value[dims.time],
             ].join('<br>') 
-            : [this.selectedType.seriesRightName + '：' + params[0].value, '时间：' + params[0].name].join('<br>');
+              : [this.selectedType.seriesRightName + '：' + params[0].value + this.selectedType.unit, '时间：' + params[0].name].join('<br>');
           }
         },
         dataZoom: [{

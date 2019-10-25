@@ -30,7 +30,7 @@ export class ServersService {
       icon: "iconGroup",
       unit: "m/s",
       seriesLeftName: '风向',
-      seriesRightName: '风速(m/s)',
+      seriesRightName: '风速',
       pieces: [
         {
           gt: 0,
@@ -92,7 +92,7 @@ export class ServersService {
       icon: "iconFill",
       unit: "m",
       seriesLeftName: '浪向',
-      seriesRightName: '浪高(m)',
+      seriesRightName: '浪高',
       pieces: [
         {
           gt: 0,
@@ -139,7 +139,7 @@ export class ServersService {
       icon: "iconliuliang",
       unit: "m/s",
       seriesLeftName: '流向',
-      seriesRightName: '流速(m/s)',
+      seriesRightName: '流速',
       pieces: [
         {
           gt: 0,
@@ -228,7 +228,7 @@ export class ServersService {
       chartName: "sst",
       icon: "iconGroup1",
       unit: "°",
-      seriesRightName: '海温(°)',
+      seriesRightName: '海温',
       hasChart: true,
       pieces: [
         {
@@ -326,8 +326,8 @@ export class ServersService {
       mapServer: "SAL/MapServer",
       chartName: "salinity",
       icon: "iconGroup3",
-      unit: "%",
-      seriesRightName: '盐度(%)',
+      unit: "‰",
+      seriesRightName: '盐度',
       pieces: [
         {
           gt: 0,
@@ -430,7 +430,7 @@ export class ServersService {
       chartName: "tide",
       icon: "iconlang",
       unit: "m",
-      seriesRightName: '潮高(m)',
+      seriesRightName: '潮高',
       pieces: [
         {
           gt: 4,

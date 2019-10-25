@@ -55,6 +55,7 @@ export class CoastalComponent implements OnInit {
   constructor(public server: ServersService) { }
 
   ngOnInit() {
+      
   }
   getPublishtime() {
     //刷新图层
@@ -196,11 +197,17 @@ export class CoastalComponent implements OnInit {
     }
     this.showPop = true;
   }
-  //获取曲线数据
+  //获取曲线数据watertemp
   getChartData() {
+    this.server.elements.forEach(element=>{
+      element.active = false;
+      if (element.name == this.selectedType.name){
+        element.active = true;
+      }
+    })
     this.isLoading = true;
     let options = {
-      api: this.api_chart + "id=" + this.selectedPoly.id+"&element=" + this.selectedType.chartName
+      api: this.api_chart + "id=" + this.selectedPoly.id + "&element=" + (this.selectedType.chartName == 'sst' ? 'watertemp' : this.selectedType.chartName)
     }
     this.server.getRxjsData(options).subscribe((data) => {
       var windData = echarts.util.map(data, function (entry) {
@@ -268,11 +275,11 @@ export class CoastalComponent implements OnInit {
           formatter: (params) => {
             return params.length > 1 ?
               [
-                this.selectedType.seriesRightName + '：' + params[0].value,
+                this.selectedType.seriesRightName + '：' + params[0].value + this.selectedType.unit,
                 this.selectedType.seriesLeftName + '：' + params[1].value[dims.DIR_EN],
                 '时间：' + params[1].value[dims.DATATIME],
               ].join('<br>')
-              : [this.selectedType.seriesRightName + '：' + params[0].value, '时间：' + params[0].name].join('<br>');
+              : [this.selectedType.seriesRightName + '：' + params[0].value + this.selectedType.unit, '时间：' + params[0].name].join('<br>');
           }
         },
         dataZoom: [{

@@ -55,6 +55,7 @@ export class KeyGuaranteeComponent implements OnInit {
   public chartData: any = {};
   public publishtime;
   public isLoading = false;
+  public loading = false;
   public markerList = [
     {
       name:'九龙山',
@@ -172,6 +173,12 @@ export class KeyGuaranteeComponent implements OnInit {
   }
   //获取曲线数据
   getChartData() {
+    this.server.elements.forEach(element => {
+      element.active = false;
+      if (element.name == this.selectedType.name) {
+        element.active = true;
+      }
+    })
     this.isLoading = true;
     let options = {
       api: this.api_chart + this.selectedPoly.value+"/" + this.selectedType.chartName
@@ -225,11 +232,11 @@ export class KeyGuaranteeComponent implements OnInit {
           formatter: (params) => {
             return params.length > 1 ?
               [
-                this.selectedType.seriesRightName + '：' + params[0].value,
+                this.selectedType.seriesRightName + '：' + params[0].value + this.selectedType.unit,
                 this.selectedType.seriesLeftName + '：' + params[1].value[dims.DIR_EN],
                 '时间：' + params[1].value[dims.DATATIME],
               ].join('<br>')
-              : [this.selectedType.seriesRightName + '：' + params[0].value, '时间：' + params[0].name].join('<br>');
+              : [this.selectedType.seriesRightName + '：' + params[0].value + this.selectedType.unit , '时间：' + params[0].name].join('<br>');
           }
         },
         dataZoom: [{
@@ -309,11 +316,13 @@ export class KeyGuaranteeComponent implements OnInit {
   }
   //未来3天潮位
   getTideTable(){
+    this.loading  =true;
     let options = {
       api: this.api_tide + this.selectedPoly.value
     }
     this.server.getRxjsData(options).subscribe((data) => {
       this.tideList = data;
+      this.loading = false;
     })
   }
   closePop(){
