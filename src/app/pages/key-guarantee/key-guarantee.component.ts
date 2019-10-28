@@ -8,12 +8,6 @@ var markerImgActive = {
   width: "237px",
   height: "242px"
 };
-var markerImgHover = {
-  type: "picture-marker",  // autocasts as new PictureMarkerSymbol()
-  url: "../../assets/images/setionMakerHover.svg",
-  width: "32px",
-  height: "39px"
-};
 var markerImg = {
   type: "picture-marker",  // autocasts as new PictureMarkerSymbol()
   url: "../../assets/images/setionMarker.svg",
@@ -56,38 +50,25 @@ export class KeyGuaranteeComponent implements OnInit {
   public publishtime;
   public isLoading = false;
   public loading = false;
-  public markerList = [
-    {
-      name:'九龙山',
-      value:'jls',
-      longitude: 121.059587,
-      latitude: 30.542265
-    },
-    {
-      name:'杭州湾',
-      value: 'hzw',
-      longitude: 121.037615,
-      latitude: 30.478375
-    }
-  ];
+  public markerList = [];
   public pointGraphics = [];
+  public textSymList = [];
   public selectedPoly:any={};
   //弹框样式对象
   public showPop = false;//是否显示曲线框
   public popoverStyle = {
   };
   public activePoint = {};
-
   public selectedType: any = this.server.elements[0];
   constructor(public server: ServersService) { }
-
   ngOnInit() {
   }
   getPublishtime() {
     //刷新图层
     loadModules([
       "esri/Graphic",
-    ]).then(([Graphic]) => {
+      "esri/symbols/TextSymbol"
+    ]).then(([Graphic, TextSymbol]) => {
       let options = {
         api: this.api_keypointinfo
       }
@@ -104,27 +85,78 @@ export class KeyGuaranteeComponent implements OnInit {
             symbol: markerImg,
             attributes: {
               name: element.NAME,
-              value: element.ENAME || 'jls',
-            }
+              value: element.ENAME,
+            },
+            type: 'icon'
+          });
+          var textGraphic = new Graphic({
+            geometry: point,
+            symbol: {
+              type: "text", // autocasts as new TextSymbol()
+              color: "#fff",
+              haloColor: "#000",
+              haloSize: "1px",
+              text: element.NAME, // esri-icon-map-pin
+              font: {
+                size: 12,
+              },
+              yoffset: -20,
+            },
+            attributes: {
+              name: element.NAME,
+              value: element.ENAME,
+            },
+            type: 'text'
           });
           this.pointGraphics.push(pointGraphic)
+          this.textSymList.push(textGraphic);
         });
         this.server.view.graphics.addMany(this.pointGraphics);
+        this.server.view.graphics.addMany(this.textSymList);
         //绑定点击事件
         this.server.view.on("click", ($event) => {
           this.server.view.hitTest($event).then((response) => {
-            this.pointGraphics.forEach(element => {
-              element.symbol = markerImg;
-            })
             if (response.results[0]) {
-              response.results[0].graphic.symbol = markerImgActive;
+              const centerPoint = this.server.view.toScreen(this.server.view.center);
+              const screenPoint = this.server.view.toScreen($event.mapPoint);
+              let poorX = 0;
+              let poorY = 0;
+              if (screenPoint.x + 710 > document.body.clientWidth) {
+                poorX = screenPoint.x + 750 - document.body.clientWidth
+              }
+              if (screenPoint.y < 285) {
+                poorY = 285 - screenPoint.y;
+              } else if (screenPoint.y + 198 > document.body.clientHeight) {
+                poorY = document.body.clientHeight - screenPoint.y - 198;
+              }
+              const point = this.server.view.toMap({
+                x: centerPoint.x + poorX,
+                y: centerPoint.y - poorY
+              });
+              if (poorX || poorY) {
+                this.server.view.goTo({
+                  center: [point.longitude, point.latitude],
+                  // target: new Point({
+                  //   latitude: point.latitude,
+                  //   longitude: point.longitude,
+                  // }),
+                }, {
+                  duration: 1000  // Duration of animation will be 5 seconds
+                });
+              }
+              this.pointGraphics.forEach((element,index) => {
+                if (response.results[0].graphic.attributes.name == element.attributes.name){
+                  this.pointGraphics[index].symbol = markerImgActive;
+                }else{
+                  element.symbol = markerImg;
+                }
+              })
               this.activePoint = $event.mapPoint;
               this.selectedPoly = {
                 name: response.results[0].graphic.attributes.name,
                 value: response.results[0].graphic.attributes.value
               };
-              const screenPoint = this.server.view.toScreen($event.mapPoint);
-              this.dealStyle(screenPoint)
+              this.dealStyle(this.server.view.toScreen($event.mapPoint))
               this.getChartData()
               //获取表格
               if (this.selectedType.name == "潮位") {
@@ -134,17 +166,8 @@ export class KeyGuaranteeComponent implements OnInit {
           })
         })
         this.server.view.on("pointer-move", ($event) => {
-          // this.server.view.hitTest($event).then((response) => {
-          //   this.pointGraphics.forEach(element => {
-          //     element.symbol = markerImg;
-          //   })
-          //   if (response.results[0]) {
-          //     response.results[0].graphic.symbol = markerImgHover;
-          //   }
-          // })
           if (this.showPop) {
-            const screenPoint = this.server.view.toScreen(this.activePoint);
-            this.dealStyle(screenPoint)
+            this.dealStyle(this.server.view.toScreen(this.activePoint))
           }
         });
       })
@@ -245,7 +268,7 @@ export class KeyGuaranteeComponent implements OnInit {
           dataZoomIndex: 10,
           minSpan: 5,
           start: 0,
-          end: 30,
+          end: 100,
         }, {
           type: 'slider',
           xAxisIndex: 0,
@@ -257,33 +280,45 @@ export class KeyGuaranteeComponent implements OnInit {
         }],
         grid: [{
           top: 30,
-          left: 30,
+          left: 35,
+          right: 35,
         }],
         xAxis: {
           type: 'category',
           boundaryGap: false,
           data: categorieList,
           axisLabel: {
-            interval: 3,
+            interval: 12,
             formatter: function (value, index) {
               return value.substring(8, value.length)
             }
           }
         },
         yAxis: {
-          max: this.selectedType.max,
+          // max: this.selectedType.max,
           // name: this.selectedType.name + "(" + this.selectedType.unit + ")",
           type: 'value',
         },
-        visualMap: {
-          top: 0,
-          right: 0,
-          pieces: this.selectedType.pieces,
-          outOfRange: {
-            color: '#E20909'
+        visualMap: [
+          {
+            top: 0,
+            right: 0,
+            pieces: this.selectedType.pieces,
+            outOfRange: {
+              color: '#E20909'
+            },
+            show: false,
+            seriesIndex: 0,
           },
-          show: false
-        },
+          {
+            type: 'piecewise',
+            show: false,
+            orient: 'horizontal',
+            pieces: this.selectedType.pieces,
+            seriesIndex: 1,
+            dimension: 1
+          }
+        ],
         series: seriesLists
       }
       this.chartData = obj;
@@ -300,16 +335,17 @@ export class KeyGuaranteeComponent implements OnInit {
     return {
       type: 'path',
       shape: {
-        pathData: 'M3 6,L0 3,M3 6,L6 3,M3 6,L3 -4,Z',
+        // pathData: 'M3 6,L0 3,M3 6,L6 3,M3 6,L3 -4,Z',
+        pathData: 'M31 16l-15-15v9h-26v12h26v9z',
         x: -arrowSize / 2,
         y: -arrowSize / 2,
-        width: arrowSize,
-        height: arrowSize
+        width: 10,
+        height: 16
       },
-      rotation: api.value(dims.DIR),
+      rotation: directionMap[api.value(dims.DIR_EN)],
       position: point,
       style: api.style({
-        stroke: '#222D65',
+        stroke: '#555',
         lineWidth: 1
       })
     };

@@ -134,6 +134,7 @@ export class CoastalComponent implements OnInit {
         new Graphic({
           geometry: polygonPinghu,
           symbol: fillSymbol,
+          label: "平湖",
           attributes: {
             id: 1,
             name: "平湖"
@@ -142,6 +143,7 @@ export class CoastalComponent implements OnInit {
         new Graphic({
           geometry: polygonHaiyan,
           symbol: fillSymbol,
+          label: "海盐",
           attributes: {
             id: 2,
             name: "海盐"
@@ -149,17 +151,74 @@ export class CoastalComponent implements OnInit {
         })
       ];
       this.server.view.graphics.addMany(polygonGraphic);
+      this.server.view.graphics.addMany([
+        new Graphic({
+          geometry: {
+            type: "point",
+            longitude: 120.977,
+            latitude: 30.420,
+          },
+            symbol: {
+              type: "text", // autocasts as new TextSymbol()
+              color: "#fff",
+              haloColor: "#000",
+              haloSize: "1px",
+              text: "海盐", // esri-icon-map-pin
+              font: {
+                size: 12,
+              }
+            }
+          }),
+        new Graphic({
+          geometry: {
+            type: "point",
+            longitude: 121.286,
+            latitude: 30.555,
+          },
+          symbol: {
+            type: "text", // autocasts as new TextSymbol()
+            color: "#fff",
+            haloColor: "#000",
+            haloSize: "1px",
+            text: "平湖", // esri-icon-map-pin
+            font: {
+              size: 12,
+            }
+          }
+        })
+      ]);
       //绑定点击事件
       this.server.view.on("click", ($event) => {
         this.server.view.hitTest($event).then( (response) =>{
           if (response.results[0]) {
+            const centerPoint = this.server.view.toScreen(this.server.view.center);
+            const screenPoint = this.server.view.toScreen($event.mapPoint);
+            let poorX = 0;
+            let poorY = 0;
+            if (screenPoint.x + 710 > document.body.clientWidth) {
+              poorX = screenPoint.x + 750 - document.body.clientWidth
+            }
+            if (screenPoint.y < 285) {
+              poorY = 285 - screenPoint.y;
+            } else if (screenPoint.y + 198 > document.body.clientHeight) {
+              poorY = document.body.clientHeight - screenPoint.y - 198;
+            }
+            const point = this.server.view.toMap({
+              x: centerPoint.x + poorX,
+              y: centerPoint.y - poorY
+            });
+            if (poorX || poorY) {
+              this.server.view.goTo({
+                center: [point.longitude, point.latitude],
+              }, {
+                duration: 1000  // Duration of animation will be 5 seconds
+              });
+            }
             this.activePoint = $event.mapPoint;
             this.selectedPoly = {
               id: response.results[0].graphic.attributes.id,
               name: response.results[0].graphic.attributes.name
             };
-            const screenPoint = this.server.view.toScreen($event.mapPoint);
-            this.dealStyle(screenPoint)
             this.getChartData()
           }
         })
@@ -199,6 +258,8 @@ export class CoastalComponent implements OnInit {
   }
   //获取曲线数据watertemp
   getChartData() {
+    const screenPoint = this.server.view.toScreen(this.activePoint);
+    this.dealStyle(screenPoint)
     this.server.elements.forEach(element=>{
       element.active = false;
       if (element.name == this.selectedType.name){
@@ -288,7 +349,7 @@ export class CoastalComponent implements OnInit {
           dataZoomIndex: 10,
           minSpan: 5,
           start: 0,
-          end: 30,
+          end: 100,
         }, {
           type: 'slider',
           xAxisIndex: 0,
@@ -300,7 +361,7 @@ export class CoastalComponent implements OnInit {
         }],
         grid: [{
           top: 30,
-          left: 30,
+          left: 35,
         }],
         xAxis: {
           type: 'category',
@@ -308,26 +369,37 @@ export class CoastalComponent implements OnInit {
           data: categorieList,
           axisLabel: {
             color:'#222D65',
-            interval: 3,
+            interval: 12,
             formatter: function (value, index) {
               return value.substring(8, value.length)
             }
           }
         },
         yAxis: {
-          max: this.selectedType.max,
+          // max: this.selectedType.max,
           // name: this.selectedType.name + "(" + this.selectedType.unit + ")",
           type: 'value',
         },
-        visualMap: {
-          top: 0,
-          right: 0,
-          pieces: this.selectedType.pieces,
-          outOfRange: {
-            color: '#E20909'
+        visualMap: [
+          {
+            top: 0,
+            right: 0,
+            pieces: this.selectedType.pieces,
+            outOfRange: {
+              color: '#E20909'
+            },
+            show: false,
+            seriesIndex: 0,
           },
-          show: false
-        },
+          {
+            type: 'piecewise',
+            show: false,
+            orient: 'horizontal',
+            pieces: this.selectedType.pieces,
+            seriesIndex: 1,
+            dimension: 1
+          }
+        ],
         series: seriesLists
       }
       this.chartData = obj;
@@ -344,16 +416,17 @@ export class CoastalComponent implements OnInit {
     return {
       type: 'path',
       shape: {
-        pathData: 'M2 4,L0 2,M2 4,L4 2,M2 4,L2 -2,Z',
+        // pathData: 'M3 6,L0 3,M3 6,L6 3,M3 6,L3 -4,Z',
+        pathData: 'M31 16l-15-15v9h-26v12h26v9z',
         x: -arrowSize / 2,
         y: -arrowSize / 2,
-        width: arrowSize,
-        height: arrowSize
+        width: 10,
+        height: 16
       },
-      rotation: api.value(dims.DIR),
+      rotation: directionMap[api.value(dims.DIR_EN)],
       position: point,
       style: api.style({
-        stroke: '#222D65',
+        stroke: '#555',
         lineWidth: 1
       })
     };

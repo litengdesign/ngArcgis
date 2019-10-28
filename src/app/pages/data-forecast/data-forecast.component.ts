@@ -14,6 +14,7 @@ let dims = {
 let arrowSize = 18;
 let directionMap = {};
 echarts.util.each(
+  // ['N', 'NNE', 'NE', 'ENE', 'E', 'ESE', 'SE', 'SSE', 'S', 'SSW', 'SW', 'WSW', 'W', 'WNW', 'NW', 'NNW'],
   ['W', 'WSW', 'SW', 'SSW', 'S', 'SSE', 'SE', 'ESE', 'E', 'ENE', 'NE', 'NNE', 'N', 'NNW', 'NW', 'WNW'],
   function (name, index) {
     directionMap[name] = Math.PI / 8 * index;
@@ -99,7 +100,8 @@ export class DataForecastComponent implements OnInit, AfterViewInit, OnDestroy {
       "esri/layers/MapImageLayer",
       "extras/TDTLayer",
       "esri/views/MapView",
-    ]).then(([MapImageLayer, TDTLayer, MapView]) => {
+      "esri/geometry/Point"
+    ]).then(([MapImageLayer, TDTLayer, MapView,Point]) => {
       this.server.view = new MapView({
         container: "viewDiv",
         map: this.server.map,
@@ -112,7 +114,6 @@ export class DataForecastComponent implements OnInit, AfterViewInit, OnDestroy {
       if (this.server.layer) {
         this.server.map.remove(this.server.layer);
       }
-      //天地图
       this.server.layer = new MapImageLayer({
         url: "http://xxs.dhybzx.org:6086/arcgis/rest/services/" + this.selectedType.type + "/MapServer",
         imageMaxHeight: 977,
@@ -126,9 +127,32 @@ export class DataForecastComponent implements OnInit, AfterViewInit, OnDestroy {
           //设置0时刻显示
           this.server.layer.allSublayers.items[0].visible = true;
           this.isSpinning = false;
-          //绑定点击事件
+          // 绑定点击事件
           this.server.view.on("click", ($event) => {
-            this.getChartData($event)
+            const centerPoint = this.server.view.toScreen(this.server.view.center);
+            const screenPoint = this.server.view.toScreen($event.mapPoint);
+            let poorX = 0;
+            let poorY = 0;
+            if (screenPoint.x + 710 > document.body.clientWidth){
+              poorX = screenPoint.x + 750 - document.body.clientWidth
+            }
+            if (screenPoint.y < 285) {
+              poorY = 285-screenPoint.y;
+            } else if (screenPoint.y + 198 > document.body.clientHeight){
+              poorY = document.body.clientHeight - screenPoint.y - 198;
+            }
+            const point = this.server.view.toMap({
+              x: centerPoint.x + poorX,
+              y: centerPoint.y - poorY
+            });
+            if(poorX || poorY){
+              this.server.view.goTo({
+                center: [point.longitude, point.latitude],
+              }, {
+                duration: 1000  // Duration of animation will be 5 seconds
+              });
+            }
+            this.getChartData($event);
           })
           this.server.view.on("pointer-move", ($event) => {
             if (this.showPop) {
@@ -159,6 +183,9 @@ export class DataForecastComponent implements OnInit, AfterViewInit, OnDestroy {
   }
   //点击时刻
   targetBar(key, single?) {
+    if (this.showPop) {
+      this.showPop = false;
+    }
     if (single && this.intervalPlay) {
       this.stopLayer();
     }
@@ -200,6 +227,9 @@ export class DataForecastComponent implements OnInit, AfterViewInit, OnDestroy {
   }
   //开始播放
   startPlay() {
+    if(this.showPop){
+      this.showPop = false;
+    }
     this.intervalPlay = setInterval(() => {
       this.targetBar(this.playKey);
       if (this.playKey >= 72) {
@@ -287,10 +317,10 @@ export class DataForecastComponent implements OnInit, AfterViewInit, OnDestroy {
         dataZoom: [{
           type: 'inside',
           xAxisIndex: 0,
-          dataZoomIndex: 10,
+          dataZoomIndex: 0,
           minSpan: 5,
           start: 0,
-          end: 30,
+          end: 100,
         }, {
           type: 'slider',
           xAxisIndex: 0,
@@ -302,7 +332,7 @@ export class DataForecastComponent implements OnInit, AfterViewInit, OnDestroy {
         }],
         grid: [{
           top: 30,
-          left: 30,
+          left: 35,
           bottom:10,
         }],
         xAxis: {
@@ -311,26 +341,36 @@ export class DataForecastComponent implements OnInit, AfterViewInit, OnDestroy {
           boundaryGap: false,
           data: categorieList,
           axisLabel: {
-            interval: 3,
+            interval: 12,
             formatter: function (value, index) {
               return value.substring(8, value.length)
             }
           }
         },
         yAxis: {
-          max: this.selectedType.max,
           // name: this.selectedType.name + "(" + this.selectedType.unit + ")",
           type: 'value',
         },
-        visualMap: {
-          top: 0,
-          right: 0,
-          pieces: this.selectedType.pieces,
-          outOfRange: {
-            color: '#E20909'
+        visualMap: [
+          {
+            top: 0,
+            right: 0,
+            pieces: this.selectedType.pieces,
+            outOfRange: {
+              color: '#E20909'
+            },
+            show: false,
+            seriesIndex: 0,
           },
-          show: false
-        },
+          {
+            type: 'piecewise',
+            show: false,
+            orient: 'horizontal',
+            pieces: this.selectedType.pieces,
+            seriesIndex: 1,
+            dimension: 1
+          }
+        ],
         series: seriesLists
       }
       this.chartData = obj;
@@ -347,16 +387,16 @@ export class DataForecastComponent implements OnInit, AfterViewInit, OnDestroy {
     return {
       type: 'path',
       shape: {
-        pathData: 'M2 4,L0 2,M2 4,L4 2,M2 4,L2 -2,Z',
+        pathData: 'M31 16l-15-15v9h-26v12h26v9z',
         x: -arrowSize / 2,
         y: -arrowSize / 2,
-        width: arrowSize,
-        height: arrowSize
+        width: 10,
+        height: 16
       },
-      rotation: api.value(dims.dirAngle),
+      rotation: directionMap[api.value(dims.lable)],
       position: point,
       style: api.style({
-        stroke: '#222D65',
+        stroke: '#555',
         lineWidth: 1
       })
     };
@@ -365,7 +405,7 @@ export class DataForecastComponent implements OnInit, AfterViewInit, OnDestroy {
   dealStyle(screenPoint) {
     this.popoverStyle = {
       left: (screenPoint.x + 30) + 'px',
-      top: (screenPoint.y - 250) + 'px',
+      top: (screenPoint.y - 198) + 'px',
     }
     this.showPop = true;
   }
