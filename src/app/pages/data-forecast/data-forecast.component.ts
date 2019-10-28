@@ -204,8 +204,8 @@ export class DataForecastComponent implements OnInit, AfterViewInit, OnDestroy {
   reflashLayer(preIndex, nextIndex) {
     this.playKey = nextIndex;
     this.isSpinning = true;
-    let preLayerName = this.selectedType.type + "_NAN_0" + preIndex;
-    let layerName = this.selectedType.type + "_NAN_0" + nextIndex;
+    let preLayerName = this.selectedType.type + "_NAN_0" + (preIndex > 9 ? preIndex : '0'+preIndex);
+    let layerName = this.selectedType.type + "_NAN_0" + (nextIndex > 9 ? nextIndex : '0' + nextIndex);
     this.server.layer.allSublayers.forEach(element => {
       if (element.title == layerName) {
         element.visible = true;
