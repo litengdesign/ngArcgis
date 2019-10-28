@@ -124,8 +124,8 @@ export class KeyGuaranteeComponent implements OnInit {
               if (screenPoint.x + 710 > document.body.clientWidth) {
                 poorX = screenPoint.x + 750 - document.body.clientWidth
               }
-              if (screenPoint.y < 285) {
-                poorY = 285 - screenPoint.y;
+              if (screenPoint.y < 305) {
+                poorY = 305 - screenPoint.y;
               } else if (screenPoint.y + 198 > document.body.clientHeight) {
                 poorY = document.body.clientHeight - screenPoint.y - 198;
               }
