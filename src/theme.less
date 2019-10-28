@@ -110,6 +110,7 @@
             }
           }
         }
+
     }
     .pop-content{
       margin: 15px;
@@ -135,4 +136,18 @@
         bottom: 50%;
         left:-6px;
     }
+    &:before {
+      top: 100%;
+      border: solid transparent;
+      content: " ";
+      height: 0;
+      width: 0;
+      position: absolute;
+      pointer-events: none;
+      border-right-color: #fff;
+      border-width: 10px;
+      left: -10px;
+      top: 198px;
+      margin-left: -10px;
+  }
 }
