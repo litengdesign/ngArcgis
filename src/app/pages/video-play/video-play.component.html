@@ -2,8 +2,8 @@
     <div nz-row nzGutter="8">
         <div nz-col nzSpan="24">
             <div class="category-wrap">
-                <button nz-button nzType="primary" [ngClass]="{'ant-btn-primary': selectedType=='pinhu'}"
-                    nzShape="round" (click)="getVedioList('pinhu')">平湖</button>
+                <button nz-button nzType="primary" [ngClass]="{'ant-btn-primary': selectedType=='pinghu'}"
+                    nzShape="round" (click)="getVedioList('pinghu')">平湖</button>
                 <button nz-button [ngClass]="{'ant-btn-primary': selectedType=='haiyan'}" nzShape="round"
                     (click)="getVedioList('haiyan')">海盐</button>
             </div>
@@ -16,14 +16,14 @@
         </div>
         <div nz-col nzSpan="24">
             <div class="video-list">
-                <div nz-row nzGutter="16">
-                    <div nz-col nzSpan="6" *ngFor="let item of listData">
+                <div nz-row nzGutter="40">
+                    <div nz-col nzSpan="6" *ngFor="let item of listData" style="margin-bottom: 40px;">
                         <div (click)="playVideo(item)" style="padding: 0">
-                            <div class="video-thumb">
+                            <div class="video-thumb {{selectedType}}">
                             </div>
                             <div class="video-title">
-                                <span class="name">{{item.filename}}</span>
-                                <span class="date">{{item.date}}</span>
+                                <span class="name">{{item.areaName |slice:0:14}}</span>
+                                <span class="date">{{item.date | date:'yyyy.MM.dd'}}</span>
                             </div>
                         </div>
                     </div>

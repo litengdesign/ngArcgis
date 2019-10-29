@@ -9,14 +9,14 @@ import { NzMessageModule } from 'ng-zorro-antd/message';
 })
 export class VideoPlayComponent implements OnInit {
   //API
-  public api_list_vedio_pinhu = '/jx/pinghuvideo';//平湖视频列表
+  public api_list_vedio_pinghu = '/jx/pinghuvideo';//平湖视频列表
   public api_list_vedio_haiyan = '/jx/haiyanvideo'//海盐视频列表
 
   //其他参数
   public loading = false; //预加载
   public displayData = [];
   public listData = [];
-  public selectedType = 'pinhu';
+  public selectedType = 'pinghu';
   public isVisible = false;
   public fileObj: any = {};
   public isSpinning = true;
@@ -25,13 +25,13 @@ export class VideoPlayComponent implements OnInit {
 
   ngOnInit() {
     this.server.isDataForecast = false;
-    this.getVedioList('pinhu');
+    this.getVedioList('pinghu');
   }
   //获取视频列表
   getVedioList(key) {
     this.selectedType = key;
     let options = {
-      api: this.selectedType == 'pinhu' ? this.api_list_vedio_pinhu : this.api_list_vedio_haiyan
+      api: this.selectedType == 'pinghu' ? this.api_list_vedio_pinghu : this.api_list_vedio_haiyan
     }
     this.loading = true;
     this.server.getRxjsData(options).subscribe((data) => {
@@ -66,7 +66,7 @@ export class VideoPlayComponent implements OnInit {
     this.isVisible = true;
     this.fileObj = {
       filename: item.filename,
-      path: this.selectedType == 'pinhu' ? "https://xxs.dhybzx.org:3000/jx/pinghuvideo/" + item.filename : "https://xxs.dhybzx.org:3000/jx/haiyanvideo/" + item.filename
+      path: this.selectedType == 'pinghu' ? "https://xxs.dhybzx.org:3000/jx/pinghuvideo/" + item.filename : "https://xxs.dhybzx.org:3000/jx/haiyanvideo/" + item.filename
     }
   }
   handleCancel() {

@@ -9,12 +9,33 @@
     .video-list{
         margin-top: 20px;
         .video-thumb{
+            position: relative;
             width: 100%;
             height: 183px;
-            background: url('../../../assets/images/vedeo-thumb.jpg') no-repeat center;
             border-radius: 6px 6px 0 0;
+            cursor: pointer;
+            &.pinghu{
+                background: url('../../../assets/images/video-thumb-pinghu.jpg') no-repeat center;
+                background-size: cover;
+            }
+            &.haiyan{
+                background: url('../../../assets/images/video-thumb-haiyan.jpg') no-repeat center;
+                background-size: cover;
+            }
             &:hover{
                 opacity: 0.9;
+            }
+            &:after{
+                content: '';
+                position: absolute;
+                width: 27px;
+                height: 33px;
+                left: 50%;
+                top: 50%;
+                margin-left: -14px;
+                margin-top: -17px;
+                background: url('../../../assets/images/video-icon.png') no-repeat center;
+                background-size: contain;
             }
         }
         .video-title{
@@ -23,6 +44,7 @@
             width: 100%;
             background-color: #fff;
             border-radius: 0 0 6px 6px;
+            cursor: pointer;
             .name{
                 font-size: 13px;
                 float: left;
