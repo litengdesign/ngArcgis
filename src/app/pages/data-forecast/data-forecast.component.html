@@ -34,7 +34,7 @@
         <h3 class="header" style="padding-bottom: 12px">
             <span>平湖近岸海域－未来72小时{{selectedType.name}}预报（北纬N{{activePoint.longitude | pointerFloor}}
                 东经E{{activePoint.latitude | pointerFloor}}）</span>
-            <span class="icon-close" (click)="showPop=false"><i nz-icon nzType="close" nzTheme="outline"></i></span>
+            <span class="icon-close" (click)="closePop()"><i nz-icon nzType="close" nzTheme="outline"></i></span>
         </h3>
         <div class="pop-content">
             <div nz-row nzGutter="0">

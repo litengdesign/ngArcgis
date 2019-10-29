@@ -16,7 +16,7 @@ let directionMap = {};
 echarts.util.each(
   // ['N', 'NNE', 'NE', 'ENE', 'E', 'ESE', 'SE', 'SSE', 'S', 'SSW', 'SW', 'WSW', 'W', 'WNW', 'NW', 'NNW'],
   ['W', 'WSW', 'SW', 'SSW', 'S', 'SSE', 'SE', 'ESE', 'E', 'ENE', 'NE', 'NNE', 'N', 'NNW', 'NW', 'WNW'],
-  function (name, index) {
+   (name, index)=> {
     directionMap[name] = Math.PI / 8 * index;
   }
 );
@@ -100,8 +100,8 @@ export class DataForecastComponent implements OnInit, AfterViewInit, OnDestroy {
       "esri/layers/MapImageLayer",
       "extras/TDTLayer",
       "esri/views/MapView",
-      "esri/geometry/Point"
-    ]).then(([MapImageLayer, TDTLayer, MapView,Point]) => {
+      "esri/Graphic"
+    ]).then(([MapImageLayer, TDTLayer, MapView, Graphic]) => {
       this.server.view = new MapView({
         container: "viewDiv",
         map: this.server.map,
@@ -129,6 +129,30 @@ export class DataForecastComponent implements OnInit, AfterViewInit, OnDestroy {
           this.isSpinning = false;
           // 绑定点击事件
           this.server.view.on("click", ($event) => {
+            //绘制点
+            var simpleMarkerSymbol = {
+              type: "simple-marker",
+              color: "#1890ff",  // orange
+              outline: {
+                color: [255, 255, 255], // white
+                width: 1
+              }
+            };
+            let pointGraphic = new Graphic({
+              geometry: {
+                type: "point",
+                longitude: $event.mapPoint.longitude,
+                latitude: $event.mapPoint.latitude,
+              },
+              symbol: simpleMarkerSymbol
+            })
+            if (this.server.view.graphics.length){
+              this.server.view.graphics.items.forEach(element => {
+                element.visible  = false;
+              });
+            }
+            this.server.view.graphics.add(pointGraphic);
+            //计算弹框显示区域
             const centerPoint = this.server.view.toScreen(this.server.view.center);
             const screenPoint = this.server.view.toScreen($event.mapPoint);
             let poorX = 0;
@@ -309,6 +333,7 @@ export class DataForecastComponent implements OnInit, AfterViewInit, OnDestroy {
             [
               this.selectedType.seriesRightName + '：' + params[0].value + this.selectedType.unit,
               this.selectedType.seriesLeftName + '：' + params[1].value[dims.lable],
+              // '角度：' + params[1].value[dims.dirAngle],
               '时间：' + params[1].value[dims.time],
             ].join('<br>') 
               : [this.selectedType.seriesRightName + '：' + params[0].value + this.selectedType.unit, '时间：' + params[0].name].join('<br>');
@@ -343,7 +368,7 @@ export class DataForecastComponent implements OnInit, AfterViewInit, OnDestroy {
           axisLabel: {
             interval: 12,
             formatter: function (value, index) {
-              return value.substring(8, value.length)
+              return value.substring(8, 10).replace(/\s*/g, "") + '日' + value.substring(10, value.length)
             }
           }
         },
@@ -361,14 +386,6 @@ export class DataForecastComponent implements OnInit, AfterViewInit, OnDestroy {
             },
             show: false,
             seriesIndex: 0,
-          },
-          {
-            type: 'piecewise',
-            show: false,
-            orient: 'horizontal',
-            pieces: this.selectedType.pieces,
-            seriesIndex: 1,
-            dimension: 1
           }
         ],
         series: seriesLists
@@ -387,16 +404,17 @@ export class DataForecastComponent implements OnInit, AfterViewInit, OnDestroy {
     return {
       type: 'path',
       shape: {
-        pathData: 'M31 16l-15-15v9h-26v12h26v9z',
+        pathData: 'M4 2,L6 0,M6 0,L4 -2,M6 0,L0 0 ,Z',
         x: -arrowSize / 2,
         y: -arrowSize / 2,
-        width: 10,
-        height: 16
+        width: 12,
+        height: 18
       },
-      rotation: directionMap[api.value(dims.lable)],
+      // 公式为: 角度 = 180°×弧度÷π   弧度=角度×π÷180°
+      rotation: api.value(dims.dirAngle) * Math.PI / 180,
       position: point,
       style: api.style({
-        stroke: '#555',
+        stroke: '#222D65',
         lineWidth: 1
       })
     };
@@ -408,5 +426,12 @@ export class DataForecastComponent implements OnInit, AfterViewInit, OnDestroy {
       top: (screenPoint.y - 198) + 'px',
     }
     this.showPop = true;
+  }
+  //关闭弹框
+  closePop(){
+    this.showPop = false;
+    this.server.view.graphics.items.forEach(element => {
+      element.visible = false;
+    });
   }
 }

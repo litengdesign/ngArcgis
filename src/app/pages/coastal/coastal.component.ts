@@ -338,6 +338,7 @@ export class CoastalComponent implements OnInit {
               [
                 this.selectedType.seriesRightName + '：' + params[0].value + this.selectedType.unit,
                 this.selectedType.seriesLeftName + '：' + params[1].value[dims.DIR_EN],
+                // '角度：' + params[1].value[dims.DIR],
                 '时间：' + params[1].value[dims.DATATIME],
               ].join('<br>')
               : [this.selectedType.seriesRightName + '：' + params[0].value + this.selectedType.unit, '时间：' + params[0].name].join('<br>');
@@ -371,7 +372,7 @@ export class CoastalComponent implements OnInit {
             color:'#222D65',
             interval: 12,
             formatter: function (value, index) {
-              return value.substring(8, value.length)
+              return value.substring(8, 10).replace(/\s*/g, "") + '日' + value.substring(10, value.length)
             }
           }
         },
@@ -416,17 +417,17 @@ export class CoastalComponent implements OnInit {
     return {
       type: 'path',
       shape: {
-        // pathData: 'M3 6,L0 3,M3 6,L6 3,M3 6,L3 -4,Z',
-        pathData: 'M31 16l-15-15v9h-26v12h26v9z',
+        pathData: 'M4 2,L6 0,M6 0,L4 -2,M6 0,L0 0 ,Z',
         x: -arrowSize / 2,
         y: -arrowSize / 2,
-        width: 10,
-        height: 16
+        width: 12,
+        height: 18
       },
-      rotation: directionMap[api.value(dims.DIR_EN)],
+      // rotation: directionMap[api.value(dims.DIR_EN)],
+      rotation: api.value(dims.DIR) * Math.PI / 180,
       position: point,
       style: api.style({
-        stroke: '#555',
+        stroke: '#222D65',
         lineWidth: 1
       })
     };
