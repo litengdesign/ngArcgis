@@ -157,6 +157,8 @@ export class KeyGuaranteeComponent implements OnInit {
                 value: response.results[0].graphic.attributes.value
               };
               this.dealStyle(this.server.view.toScreen($event.mapPoint))
+              //设置默认选中海面风
+              this.server.resetElementActive();
               this.getChartData()
               //获取表格
               if (this.selectedType.name == "潮位") {
@@ -197,9 +199,8 @@ export class KeyGuaranteeComponent implements OnInit {
   //获取曲线数据
   getChartData() {
     this.server.elements.forEach(element => {
-      element.active = false;
-      if (element.name == this.selectedType.name) {
-        element.active = true;
+      if (element.active) {
+        this.selectedType = element;
       }
     })
     this.isLoading = true;
@@ -290,7 +291,7 @@ export class KeyGuaranteeComponent implements OnInit {
           axisLabel: {
             interval: 12,
             formatter: function (value, index) {
-              return value.substring(8, 10).replace(/\s*/g, "") + '日' + value.substring(10, value.length)
+              return value.substring(8, value.length)
             }
           }
         },

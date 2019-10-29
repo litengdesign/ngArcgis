@@ -68,6 +68,8 @@ export class DataForecastComponent implements OnInit, AfterViewInit, OnDestroy {
 
   constructor(public server: ServersService) { }
   ngOnInit() {
+    //设置默认选中海面风
+    this.server.resetElementActive();
   }
   ngAfterViewInit(): void {
   }

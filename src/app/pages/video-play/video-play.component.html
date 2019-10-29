@@ -8,11 +8,11 @@
                     (click)="getVedioList('haiyan')">海盐</button>
             </div>
         </div>
-        <div nz-col nzSpan="5">
+        <div nz-col nzSpan="5" class="inputControl">
             <nz-range-picker [nzFormat]="'yyyy/MM/dd'" [(ngModel)]="vedioDate"></nz-range-picker>
         </div>
         <div nz-col nzSpan="2">
-            <button nz-button nzType="primary" (click)="searchData()" [nzLoading]="loading">查询</button>
+            <button nz-button nzType="primary" (click)="searchData()" [nzLoading]="loading" class="searchBtn">查询</button>
         </div>
         <div nz-col nzSpan="24">
             <div class="video-list">

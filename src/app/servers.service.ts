@@ -13,7 +13,7 @@ export class ServersService {
   public postHeaders = new HttpHeaders(
     { 'Content-Type': 'application/json' }
   )
-  //api
+  
   public isDataForecast = false;
   constructor(private http: HttpClient, private msg: NzMessageService) {
   }
@@ -551,14 +551,20 @@ export class ServersService {
 
   }
   //获取项目列表
-  getProjectList() {
+  getCoastaRegional(api) {
     let options = {
-      api: '',
-      params: {
-        Sidx: '0',
-        Rows: '10000'
-      }
+      api: api,
     }
-    return this.http.get(this.configUrl + options.api, { params: options.params });
+    return this.http.get(this.configUrl + options.api);
+  }
+  resetElementActive(){
+    //设置默认选中海面风
+    this.elements.forEach(element => {
+      if (element.name == '海面风') {
+        element.active = true;
+      } else {
+        element.active = false;
+      }
+    })
   }
 }

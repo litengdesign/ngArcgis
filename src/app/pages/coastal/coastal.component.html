@@ -19,10 +19,42 @@
                 <button nz-button [nzSize]="'small'" nzType="primary" (click)="getVedioList('haiyan')">大面图片</button>
             </div> -->
             <div nz-col nzSpan="24" nzOffset="0">
-                <nz-spin nzTip="Loading..." [nzSpinning]="isLoading">
+                <nz-spin nzTip="加载中..." [nzSpinning]="isLoading">
                     <app-echarts [chartOption]='chartData'></app-echarts>
                 </nz-spin>
             </div>
         </div>
+    </div>
+</div>
+<div class="popup">
+    <div class="title">
+        {{selectedPoly.name}}
+    </div>
+    <div class="item-wrapper">
+        <nz-spin nzTip="加载中..." [nzSpinning]="isLoadingRegionalList">
+            <div class="items" *ngFor="let item of regionalList">
+                <div class="date">
+                    {{item.date}}
+                </div>
+                <div class="item">
+                    <div class="item-icon iconWind">
+                        <i nz-icon [nzIconfont]="'iconGroup'"></i>
+                    </div>
+                    <div class="value">
+                        <div>海面风</div>
+                        <div>{{item.wind.windmin}}-{{item.wind.windmax}}</div>
+                    </div>
+                </div>
+                <div class="item">
+                    <div class="item-icon iconWave">
+                        <i nz-icon [nzIconfont]="'iconFill'"></i>
+                    </div>
+                    <div class="value">
+                        <div>海浪</div>
+                        <div>{{item.wave.wavemin}}-{{item.wave.wavemax}}</div>
+                    </div>
+                </div>
+            </div>
+        </nz-spin>
     </div>
 </div>

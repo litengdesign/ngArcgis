@@ -55,13 +55,6 @@
         display: block;
         clear: both;
     }
-    .publishtime{
-        margin-top: 10px;
-        text-align: center;
-        font-weight: 600;
-        text-shadow:1px 1px 0px #fff;
-    }
-
 }
 .progress{
     height: 50px;
@@ -123,4 +116,31 @@
     position: fixed;
     right: 30px;
     bottom: 30px;
+}
+.publishtime{
+    position: fixed;
+    top: 100px;
+    left: 30px;
+    margin-top: 10px;
+    text-align: center;
+    font-weight: 600;
+    font-size: 16px;
+    text-shadow:1px 1px 0px #fff;
+}
+@media screen and (max-width: 1024px) {
+    .progress{
+        height: 48px;
+        width: 88%;
+        border-radius: 25px;
+        position: fixed;
+        bottom: 10px;
+        left: 6%;
+        padding: 10px 15px 18px 15px;
+        background-color: rgba(255, 255, 255, 0.5);
+        border: 1px solid #fff;
+        .bars .bar{
+            width: 7px;
+            margin-left: 4px;
+        }
+    }
 }

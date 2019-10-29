@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { ServersService } from '../../servers.service';
 import { loadModules } from 'esri-loader';
 import * as echarts from 'echarts';
+import { Observable, forkJoin } from 'rxjs';
+import { format, addDays } from 'date-fns';
 let dims = {
   DATATIME: 0,
   POWER: 1,
@@ -33,29 +35,45 @@ export class CoastalComponent implements OnInit {
   public api_MapServer = "http://xxs.dhybzx.org:6086/arcgis/rest/services/";//地图服务
   public isSpinning = true;
   public listOfData = [];
-  public barList = []; //时间轴
-  public preIndex = 0; //上一个时刻
-  public intervalPlay = null; //播放定时器
-  public activePlay = false;  //播放按钮状态
-  public playKey = 0; //当前播放时刻
-  public chartData: any = {};
+  public chartData: any = null;
   public publishtime;
   public isLoading = false;
+  public isLoadingRegionalList = false; 
   public selectedPoly = {
     id:1,
-    name:"平湖"
+    name:"平湖",
   };
+  public regionalList = [];//综合数据列表
   //弹框样式对象
   public showPop = false;//是否显示曲线框
   public popoverStyle = {
   };
   public activePoint = {};
-
   public selectedType: any = this.server.elements[0];
   constructor(public server: ServersService) { }
 
   ngOnInit() {
-      
+    // 获取综合预报数据
+    this.getRegional();
+  }
+  //获取综合数据
+  getRegional(){
+    this.isLoadingRegionalList = true;
+    this.regionalList = [];
+    let selectedValue = this.selectedPoly.name == '平湖' ? 'pinghu' : 'haiyan'
+    let wind = this.server.getCoastaRegional('/jx/regionalwindforecast/' + selectedValue);
+    let wave = this.server.getCoastaRegional('/jx/regionalwaveforecast/' + selectedValue);
+    forkJoin([wind, wave]).subscribe((result: any) => {
+      let publishtime = new Date(result[0][0].publishtime.substring(0, 4) + "-" + result[0][0].publishtime.substring(5, 7) + "-" + result[0][0].publishtime.substring(8, 10));
+      result[0].forEach((element,index) => {
+          this.regionalList.push({
+            wind: result[0][index],
+            wave: result[1][index],
+            date: format(addDays(new Date(publishtime), index), 'MM月dd日')
+          })
+        });
+      this.isLoadingRegionalList = false;
+    })
   }
   getPublishtime() {
     //刷新图层
@@ -148,27 +166,24 @@ export class CoastalComponent implements OnInit {
             id: 2,
             name: "海盐"
           }
-        })
-      ];
-      this.server.view.graphics.addMany(polygonGraphic);
-      this.server.view.graphics.addMany([
+        }),
         new Graphic({
           geometry: {
             type: "point",
             longitude: 120.977,
             latitude: 30.420,
           },
-            symbol: {
-              type: "text", // autocasts as new TextSymbol()
-              color: "#fff",
-              haloColor: "#000",
-              haloSize: "1px",
-              text: "海盐", // esri-icon-map-pin
-              font: {
-                size: 12,
-              }
+          symbol: {
+            type: "text", // autocasts as new TextSymbol()
+            color: "#fff",
+            haloColor: "#000",
+            haloSize: "1px",
+            text: "海盐", // esri-icon-map-pin
+            font: {
+              size: 12,
             }
-          }),
+          }
+        }),
         new Graphic({
           geometry: {
             type: "point",
@@ -186,7 +201,8 @@ export class CoastalComponent implements OnInit {
             }
           }
         })
-      ]);
+      ];
+      this.server.view.graphics.addMany(polygonGraphic);
       //绑定点击事件
       this.server.view.on("click", ($event) => {
         this.server.view.hitTest($event).then( (response) =>{
@@ -215,11 +231,19 @@ export class CoastalComponent implements OnInit {
               });
             }
             this.activePoint = $event.mapPoint;
-            this.selectedPoly = {
-              id: response.results[0].graphic.attributes.id,
-              name: response.results[0].graphic.attributes.name
-            };
-            this.getChartData()
+            this.dealStyle(this.server.view.toScreen(this.activePoint))
+            if (this.selectedPoly.name != response.results[0].graphic.attributes.name || !this.chartData){
+              this.selectedPoly = {
+                id: response.results[0].graphic.attributes.id,
+                name: response.results[0].graphic.attributes.name
+              };
+              //获取未来三天综合数据
+              this.getRegional();
+              //设置默认选中海面风
+              this.server.resetElementActive();
+              //获取曲线图
+              this.getChartData();
+            }
           }
         })
       })
@@ -258,12 +282,9 @@ export class CoastalComponent implements OnInit {
   }
   //获取曲线数据watertemp
   getChartData() {
-    const screenPoint = this.server.view.toScreen(this.activePoint);
-    this.dealStyle(screenPoint)
     this.server.elements.forEach(element=>{
-      element.active = false;
-      if (element.name == this.selectedType.name){
-        element.active = true;
+      if (element.active){
+        this.selectedType = element;
       }
     })
     this.isLoading = true;
@@ -372,7 +393,7 @@ export class CoastalComponent implements OnInit {
             color:'#222D65',
             interval: 12,
             formatter: function (value, index) {
-              return value.substring(8, 10).replace(/\s*/g, "") + '日' + value.substring(10, value.length)
+              return value.substring(8, value.length)
             }
           }
         },

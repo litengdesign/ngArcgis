@@ -42,7 +42,7 @@ export class ArcgisMapComponent implements OnInit {
       this.server.view = new MapView({
         container: "viewDiv",
         map: this.server.map,
-        zoom:10,
+        zoom:11,
         minZoom: 5,//最小空间等级
         maxZoom: 18,//最大空间等级
         center: [121.1135, 30.5007]

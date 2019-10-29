@@ -1,6 +1,7 @@
 <div id="content">
-    <nz-spin nzTip="Loading..." *ngIf="isSpinning" style="position: fixed;left: 50%;top: 50%;"></nz-spin>
+    <nz-spin nzTip="加载中..." *ngIf="isSpinning" class="forecast-loading" style="position: fixed;left: 50%;top: 50%;"></nz-spin>
     <app-arcgis-map (checked)="getPublishtime()"></app-arcgis-map>
+    <p class="publishtime">预报发布时间:{{publishtime | date:'yyyy-MM-dd日 HH 时'}}</p>
     <!-- 子菜单 -->
     <div class="dropDown">
         <ul>
@@ -10,7 +11,6 @@
             </li>
         </ul>
         <div class="clearfix"></div>
-        <p class="publishtime">预报发布时间:{{publishtime}}</p>
     </div>
     <!-- 进度条 -->
     <div class="progress">
@@ -32,8 +32,7 @@
     <!-- 弹出框 -->
     <div class="popover" [ngStyle]="popoverStyle" *ngIf="showPop">
         <h3 class="header" style="padding-bottom: 12px">
-            <span>平湖近岸海域－未来72小时{{selectedType.name}}预报（北纬N{{activePoint.longitude | pointerFloor}}
-                东经E{{activePoint.latitude | pointerFloor}}）</span>
+            <span>{{selectedType.name}}预报趋势（{{activePoint.longitude | pointerFloor}}︒， {{activePoint.latitude | pointerFloor}}︒）</span>
             <span class="icon-close" (click)="closePop()"><i nz-icon nzType="close" nzTheme="outline"></i></span>
         </h3>
         <div class="pop-content">
@@ -43,7 +42,7 @@
                 </div>
                 <div nz-col nzSpan="24" nzOffset="0">
                     <!-- <app-highcharts [chartsObj]='chartData'></app-highcharts> -->
-                    <nz-spin nzTip="Loading..." [nzSpinning]="isLoading"><app-echarts [chartOption]='chartData'></app-echarts></nz-spin>
+                    <nz-spin nzTip="加载中..." [nzSpinning]="isLoading"><app-echarts [chartOption]='chartData'></app-echarts></nz-spin>
                 </div>
                 <!-- <div nz-col nzSpan="24" nzOffset="0">
                     <nz-table #basicTable nzVirtualScroll [nzVirtualItemSize]="54" [nzData]="listOfData"
