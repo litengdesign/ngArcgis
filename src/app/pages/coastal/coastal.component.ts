@@ -151,11 +151,12 @@ export class CoastalComponent implements OnInit {
       let polygonGraphic = [
         new Graphic({
           geometry: polygonPinghu,
-          symbol: fillSymbol,
+          symbol: fillSymbolHover,
           label: "平湖",
           attributes: {
             id: 1,
-            name: "平湖"
+            name: "平湖",
+            active: true
           }
         }),
         new Graphic({
@@ -164,9 +165,12 @@ export class CoastalComponent implements OnInit {
           label: "海盐",
           attributes: {
             id: 2,
-            name: "海盐"
+            name: "海盐",
+            active:false
           }
-        }),
+        })
+      ];
+      let textGraphic = [
         new Graphic({
           geometry: {
             type: "point",
@@ -201,8 +205,9 @@ export class CoastalComponent implements OnInit {
             }
           }
         })
-      ];
+      ]
       this.server.view.graphics.addMany(polygonGraphic);
+      this.server.view.graphics.addMany([textGraphic]);
       //绑定点击事件
       this.server.view.on("click", ($event) => {
         this.server.view.hitTest($event).then( (response) =>{
@@ -232,6 +237,14 @@ export class CoastalComponent implements OnInit {
             }
             this.activePoint = $event.mapPoint;
             this.dealStyle(this.server.view.toScreen(this.activePoint))
+            if (response.results[0]) {
+              polygonGraphic.forEach(element => {
+                element.symbol = fillSymbol;
+                element.attributes.active = false;
+              })
+              polygonGraphic[response.results[0].graphic.attributes.id - 1].symbol = fillSymbolHover;
+              polygonGraphic[response.results[0].graphic.attributes.id - 1].attributes.active = true;
+            }
             if (this.selectedPoly.name != response.results[0].graphic.attributes.name || !this.chartData){
               this.selectedPoly = {
                 id: response.results[0].graphic.attributes.id,
@@ -249,12 +262,16 @@ export class CoastalComponent implements OnInit {
       })
       this.server.view.on("pointer-move", ($event) => {
         this.server.view.hitTest($event).then((response) => {
-          polygonGraphic.forEach(element => {
-            element.symbol = fillSymbol;
-          })
           if (response.results[0]) {
-            polygonGraphic[response.results[0].graphic.attributes.id-1].symbol = fillSymbolHover;
+            polygonGraphic[response.results[0].graphic.attributes.id - 1].symbol = fillSymbolHover;
+          }else{
+            polygonGraphic.forEach(element => {
+              if (!element.attributes.active){
+                element.symbol = fillSymbol;
+              }
+            })
           }
+
         })
         if (this.showPop) {
           const screenPoint = this.server.view.toScreen(this.activePoint);
