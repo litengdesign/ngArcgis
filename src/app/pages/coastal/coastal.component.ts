@@ -207,7 +207,7 @@ export class CoastalComponent implements OnInit {
         })
       ]
       this.server.view.graphics.addMany(polygonGraphic);
-      this.server.view.graphics.addMany([textGraphic]);
+      this.server.view.graphics.addMany(textGraphic);
       //绑定点击事件
       this.server.view.on("click", ($event) => {
         this.server.view.hitTest($event).then( (response) =>{
@@ -263,6 +263,13 @@ export class CoastalComponent implements OnInit {
       this.server.view.on("pointer-move", ($event) => {
         this.server.view.hitTest($event).then((response) => {
           if (response.results[0]) {
+            if (polygonGraphic[response.results[0].graphic.attributes.id - 1].attributes.active){
+              polygonGraphic.forEach(element => {
+                if (!element.attributes.active) {
+                  element.symbol = fillSymbol;
+                }
+              })
+            }
             polygonGraphic[response.results[0].graphic.attributes.id - 1].symbol = fillSymbolHover;
           }else{
             polygonGraphic.forEach(element => {
