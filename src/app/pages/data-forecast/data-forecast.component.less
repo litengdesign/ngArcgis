@@ -127,20 +127,28 @@
     font-size: 16px;
     text-shadow:1px 1px 0px #fff;
 }
-@media screen and (max-width: 1024px) {
+@media screen and (max-width: 1280px) {
     .progress{
         height: 48px;
-        width: 88%;
+        width: 80%;
         border-radius: 25px;
         position: fixed;
         bottom: 10px;
-        left: 6%;
+        left: 10%;
         padding: 10px 15px 18px 15px;
         background-color: rgba(255, 255, 255, 0.5);
         border: 1px solid #fff;
         .bars .bar{
-            width: 7px;
-            margin-left: 4px;
+          width: 8px;
+          margin-left: 4.5px;
+        }
+    }
+}
+@media screen and (max-width: 1024px) {
+    .progress{
+        .bars .bar{
+          width: 6px;
+          margin-left: 4px;
         }
     }
 }
