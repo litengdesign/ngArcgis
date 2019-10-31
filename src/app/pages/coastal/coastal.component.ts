@@ -221,8 +221,8 @@ export class CoastalComponent implements OnInit {
             }
             if (screenPoint.y < 305) {
               poorY = 305 - screenPoint.y;
-            } else if (screenPoint.y + 198 > document.body.clientHeight) {
-              poorY = document.body.clientHeight - screenPoint.y - 198;
+            } else if (screenPoint.y + 210 > document.body.clientHeight) {
+              poorY = document.body.clientHeight - screenPoint.y - 210;
             }
             const point = this.server.view.toMap({
               x: centerPoint.x + poorX,

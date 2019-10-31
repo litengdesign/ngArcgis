@@ -19,9 +19,8 @@
                 <app-echarts [chartOption]='chartData'></app-echarts>
             </div>
             <div nz-col nzSpan="24" nzOffset="0" *ngIf="selectedType.name=='潮位'">
-                <nz-table #basicTable nzVirtualScroll [nzVirtualItemSize]="54" [nzData]="tideList"
-                    [nzVirtualForTrackBy]="trackByIndex" nzSize="small" [nzFrontPagination]="false"
-                    [nzShowPagination]="false" nzBordered="true" [nzScroll]="{ x: '0px', y: '140px' }" [nzLoading]="loading">
+                <nz-table #basicTable [nzData]="tideList" nzSize="middle" [nzFrontPagination]="false"
+                    [nzShowPagination]="false" nzBordered="true" [nzLoading]="loading">
                     <thead>
                         <tr>
                             <th nzWidth="128px">日期</th>
@@ -29,19 +28,16 @@
                             <th nzWidth="128px">第二高潮位</th>
                             <th nzWidth="128px">第一低潮位</th>
                             <th nzWidth="128px">第二低潮位</th>
-                            
                         </tr>
                     </thead>
                     <tbody>
-                        <ng-template nz-virtual-scroll let-data let-index="index">
-                            <tr *ngFor="let data of basicTable.data">
-                                <td nzWidth="128px">{{ data.CHROTIME }}</td>
-                                <td nzWidth="128px">{{data.TIDEHTIME1}} {{data.TIDEH1}}m</td>
-                                <td nzWidth="128px">{{data.TIDEHTIME2}} {{data.TIDEH2}}m</td>
-                                <td nzWidth="128px">{{data.TIDELTIME1}} {{data.TIDEL1}}m</td>
-                                <td nzWidth="128px">{{data.TIDELTIME1}} {{data.TIDEL2}}m</td>
-                            </tr>
-                        </ng-template>
+                        <tr *ngFor="let data of tideList" style="text-align: center;">
+                            <td nzWidth="128px">{{data.CHROTIME }}</td>
+                            <td nzWidth="128px">{{data.TIDEHTIME1}} {{data.TIDEH1}}m</td>
+                            <td nzWidth="128px">{{data.TIDEHTIME2}} {{data.TIDEH2}}m</td>
+                            <td nzWidth="128px">{{data.TIDELTIME1}} {{data.TIDEL1}}m</td>
+                            <td nzWidth="128px">{{data.TIDELTIME2}} {{data.TIDEL2}}m</td>
+                        </tr>
                     </tbody>
                 </nz-table>
             </div>

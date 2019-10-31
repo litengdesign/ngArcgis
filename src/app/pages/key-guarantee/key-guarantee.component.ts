@@ -58,7 +58,7 @@ export class KeyGuaranteeComponent implements OnInit {
   public showPop = false;//是否显示曲线框
   public popoverStyle = {
   };
-  public activePoint = {};
+  public activePoint:any = {};
   public selectedType: any = this.server.elements[0];
   constructor(public server: ServersService) { }
   ngOnInit() {
@@ -67,8 +67,7 @@ export class KeyGuaranteeComponent implements OnInit {
     //刷新图层
     loadModules([
       "esri/Graphic",
-      "esri/symbols/TextSymbol"
-    ]).then(([Graphic, TextSymbol]) => {
+    ]).then(([Graphic]) => {
       let options = {
         api: this.api_keypointinfo
       }
@@ -126,8 +125,8 @@ export class KeyGuaranteeComponent implements OnInit {
               }
               if (screenPoint.y < 305) {
                 poorY = 305 - screenPoint.y;
-              } else if (screenPoint.y + 198 > document.body.clientHeight) {
-                poorY = document.body.clientHeight - screenPoint.y - 198;
+              } else if (screenPoint.y + 210 > document.body.clientHeight) {
+                poorY = document.body.clientHeight - screenPoint.y - 210;
               }
               const point = this.server.view.toMap({
                 x: centerPoint.x + poorX,
@@ -360,6 +359,23 @@ export class KeyGuaranteeComponent implements OnInit {
     this.server.getRxjsData(options).subscribe((data) => {
       this.tideList = data;
       this.loading = false;
+      const centerPoint = this.server.view.toScreen(this.server.view.center);
+      let screenPoint = this.server.view.toScreen(this.activePoint)
+      let poorY = 0;
+      if (screenPoint.y + 380 > document.body.clientHeight) {
+        poorY = document.body.clientHeight - screenPoint.y - 380;
+      }
+      const point = this.server.view.toMap({
+        x: centerPoint.x,
+        y: centerPoint.y - poorY
+      });
+      if (poorY) {
+        this.server.view.goTo({
+          center: [point.longitude, point.latitude],
+        }, {
+          duration: 1000  // Duration of animation will be 5 seconds
+        });
+      }
     })
   }
   closePop(){
