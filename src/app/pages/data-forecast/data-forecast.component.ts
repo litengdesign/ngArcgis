@@ -57,6 +57,7 @@ export class DataForecastComponent implements OnInit, AfterViewInit, OnDestroy {
   public playKey = 1; //当前播放时刻
   public chartData: any = {};
   public publishtime;
+  public playTime;
   public isLoading = false;
   //弹框样式对象
   public showPop = false;//是否显示曲线框
@@ -88,12 +89,14 @@ export class DataForecastComponent implements OnInit, AfterViewInit, OnDestroy {
     }
     this.server.getRxjsData(options).subscribe((data) => {
       this.publishtime = data[0].PUBLISHTIME;
+      this.playTime = data[0].PUBLISHTIME;
       this.barList = [];
       // this.server.sublayerList = [];
       for (var i = 0; i < 72; i++) {
         this.barList.push({
           active: i === 0 ? true : false,
-          name: format(addHours(new Date(this.publishtime), i), 'dd日HH时')
+          name: format(addHours(new Date(this.publishtime), i), 'dd日HH时'),
+          date: addHours(new Date(this.publishtime), i)
         });
       }
     })
@@ -110,7 +113,7 @@ export class DataForecastComponent implements OnInit, AfterViewInit, OnDestroy {
         zoom: 9,
         maxZoom: 18,//最大空间等级
         minZoom: 5,//最小空间等级
-        center: [120.92, 30.24]
+        center: [121.5465, 30.5233]
       });
       //验证是否已经存在图层
       if (this.server.layer) {
@@ -223,6 +226,7 @@ export class DataForecastComponent implements OnInit, AfterViewInit, OnDestroy {
     })
     this.barList[key].actived = true;
     this.barList[key].active = true;
+    this.playTime = this.barList[key].date;
     this.reflashLayer(this.preIndex, key)
   }
   //播放图层
@@ -243,6 +247,10 @@ export class DataForecastComponent implements OnInit, AfterViewInit, OnDestroy {
   }
   //播放
   playLayer() {
+    if (this.playKey==72){
+      this.preIndex = 0;
+      this.playKey = 0;
+    }
     this.activePlay = !this.activePlay;
     if (this.activePlay) {
       this.targetBar(this.playKey);
@@ -258,7 +266,7 @@ export class DataForecastComponent implements OnInit, AfterViewInit, OnDestroy {
     }
     this.intervalPlay = setInterval(() => {
       this.targetBar(this.playKey);
-      if (this.playKey >= 72) {
+      if (this.playKey >= 71) {
         this.stopLayer();
       }
       this.playKey++

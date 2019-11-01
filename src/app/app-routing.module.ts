@@ -5,10 +5,42 @@ import { DataForecastComponent } from './pages/data-forecast/data-forecast.compo
 import { VideoPlayComponent } from './pages/video-play/video-play.component';
 import { KeyGuaranteeComponent } from './pages/key-guarantee/key-guarantee.component';
 import { CoastalComponent } from './pages/coastal/coastal.component';
+import { DefaultComponent2Component } from './layout/default-component2/default-component2.component';
 const routes: Routes = [
   {
-    path: '',
+    path: 'v1',
     component: DefaultComponent,
+    children: [
+      { path: '', redirectTo: 'dataForecast', pathMatch: 'full' },
+      {
+        path: 'dataForecast', component: DataForecastComponent,
+        data: {
+          breadcrumb: '数据预报'
+        }
+      },
+      {
+        path: 'coastal', component: CoastalComponent,
+        data: {
+          breadcrumb: '沿海预报'
+        }
+      },
+      {
+        path: 'keyGuarantee', component: KeyGuaranteeComponent,
+        data: {
+          breadcrumb: '重点保障预报'
+        }
+      },
+      {
+        path: 'videoPlay', component: VideoPlayComponent,
+        data: {
+          breadcrumb: '视频节目'
+        }
+      }
+    ],
+  },
+  {
+    path: 'v2',
+    component: DefaultComponent2Component,
     children: [
       { path: '', redirectTo: 'dataForecast', pathMatch: 'full' },
       {

@@ -21,6 +21,7 @@ import { CoastalComponent } from './pages/coastal/coastal.component';
 import { PointerFloorPipe } from './pointer-floor.pipe';
 import { EchartsComponent } from './blocks/echarts/echarts.component';
 import { NgxEchartsModule } from 'ngx-echarts';
+import { DefaultComponent2Component } from './layout/default-component2/default-component2.component';
 registerLocaleData(zh);
 const antDesignIcons = AllIcons as {
   [key: string]: IconDefinition;
@@ -36,7 +37,8 @@ const icons: IconDefinition[] = Object.keys(antDesignIcons).map(key => antDesign
     KeyGuaranteeComponent,
     CoastalComponent,
     PointerFloorPipe,
-    EchartsComponent
+    EchartsComponent,
+    DefaultComponent2Component
   ],
   imports: [
     BrowserModule,

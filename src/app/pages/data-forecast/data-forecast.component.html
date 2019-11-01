@@ -1,7 +1,10 @@
 <div id="content">
     <nz-spin nzTip="加载中..." *ngIf="isSpinning" class="forecast-loading" style="position: fixed;left: 50%;top: 50%;"></nz-spin>
     <app-arcgis-map (checked)="getPublishtime()"></app-arcgis-map>
-    <p class="publishtime">预报发布时间:{{publishtime | date:'yyyy-MM-dd日 HH 时'}}</p>
+    <div class="publishtime">
+        <p class="sendDate"><i nz-icon [nzIconfont]="'iconicon-'"></i><span class="label">发布时间:</span>{{publishtime | date:'MM月dd日 HH时'}}</p>
+        <p class="clockDate"><i nz-icon [nzIconfont]="'iconalarm-clock'"></i><span class="label">预报时间:</span>{{playTime | date:'MM月dd日 HH时'}}</p>
+    </div>
     <!-- 子菜单 -->
     <div class="dropDown">
         <ul>

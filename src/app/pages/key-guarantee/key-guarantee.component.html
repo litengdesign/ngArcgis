@@ -33,10 +33,10 @@
                     <tbody>
                         <tr *ngFor="let data of tideList" style="text-align: center;">
                             <td nzWidth="128px">{{data.CHROTIME }}</td>
-                            <td nzWidth="128px">{{data.TIDEHTIME1}} {{data.TIDEH1}}m</td>
-                            <td nzWidth="128px">{{data.TIDEHTIME2}} {{data.TIDEH2}}m</td>
-                            <td nzWidth="128px">{{data.TIDELTIME1}} {{data.TIDEL1}}m</td>
-                            <td nzWidth="128px">{{data.TIDELTIME2}} {{data.TIDEL2}}m</td>
+                            <td nzWidth="128px"><span style="margin-right: 10px;">{{(data.CHROTIME+' '+data.TIDEHTIME1)| date:'HH时mm分'}}</span>{{data.TIDEH1}}cm</td>
+                            <td nzWidth="128px"><span style="margin-right: 10px;">{{(data.CHROTIME+' '+data.TIDEHTIME2)| date:'HH时mm分'}}</span>{{data.TIDEH2}}cm</td>
+                            <td nzWidth="128px"><span style="margin-right: 10px;">{{(data.CHROTIME+' '+data.TIDELTIME1)| date:'HH时mm分'}}</span>{{data.TIDEL1}}cm</td>
+                            <td nzWidth="128px"><span style="margin-right: 10px;">{{(data.CHROTIME+' '+data.TIDELTIME2)| date:'HH时mm分'}}</span>{{data.TIDEL2}}cm</td>
                         </tr>
                     </tbody>
                 </nz-table>

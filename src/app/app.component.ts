@@ -12,7 +12,7 @@ export class AppComponent implements OnInit {
   constructor(public router: Router, public routerActive: ActivatedRoute, private _iconService: NzIconService) {
     //设置iconfont
     this._iconService.fetchFromIconfont({
-      scriptUrl: '//at.alicdn.com/t/font_1448462_gy5eyz1e42l.js'
+      scriptUrl: '//at.alicdn.com/t/font_1448462_ctp5oey9wde.js'
     });
   }
   ngOnInit() {
