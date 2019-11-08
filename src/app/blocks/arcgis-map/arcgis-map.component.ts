@@ -22,23 +22,23 @@ export class ArcgisMapComponent implements OnInit {
       "esri/Map",
       "esri/views/MapView",
       "extras/TDTLayer",
-      "esri/layers/MapImageLayer",
-    ]).then(([Map, MapView, TDTLayer, MapImageLayer]) => {
+    ]).then(([Map, MapView, TDTLayer]) => {
       //天地图
       var tdtLayer = new TDTLayer({
-        urlTemplate: "http://t0.tianditu.com/DataServer?T=vec_w&x={col}&y={row}&l={level}&tk=44407920251c35ea7e90953fed95f563",
+        urlTemplate: "http://t0.tianditu.gov.cn/DataServer?T=vec_w&x={col}&y={row}&l={level}&tk=44407920251c35ea7e90953fed95f563",
       });
       //天地图标识
       var annoTDTLayer = new TDTLayer({
         id: "anooMarkerLayer",
         title: "anooMarkerLayer",
-        urlTemplate: "http://t0.tianditu.com/DataServer?T=cva_w&x={col}&y={row}&l={level}&tk=44407920251c35ea7e90953fed95f563",
+        urlTemplate: "http://t0.tianditu.gov.cn/DataServer?T=cva_w&x={col}&y={row}&l={level}&tk=44407920251c35ea7e90953fed95f563",
       })
       this.server.map = new Map({
         basemap: {
           baseLayers: [tdtLayer, annoTDTLayer],
         }
       });
+
       this.server.view = new MapView({
         container: "viewDiv",
         map: this.server.map,

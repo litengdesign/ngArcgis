@@ -8,6 +8,11 @@ import { CoastalComponent } from './pages/coastal/coastal.component';
 import { DefaultComponent2Component } from './layout/default-component2/default-component2.component';
 const routes: Routes = [
   {
+    path: '',
+    redirectTo: '/v1/dataForecast',
+    pathMatch: 'full'
+  },
+  {
     path: 'v1',
     component: DefaultComponent,
     children: [

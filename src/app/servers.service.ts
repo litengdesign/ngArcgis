@@ -73,11 +73,13 @@ export class ServersService {
           color: '#be502a',
         },
         {
-          gte: 11,
-          lte: 12,
+          gte: 12,
           color: '#a0351d',
         }
       ],
+      outOfRange: {
+        color: '#e6f0ff'
+      },
       max:12,
       hasChart:true,
       hasChartKey: true,
@@ -120,11 +122,13 @@ export class ServersService {
           color: '#0074cc',
         },
         {
-          gte: 9,
-          lte: 14,
+          gte: 14,
           color: '#ffff00',
         }
       ],
+      outOfRange: {
+        color: '#e6f0ff'
+      },
       max: 14,
       hasChart: true,
       hasChartKey: true,
@@ -144,78 +148,81 @@ export class ServersService {
         {
           gte: 0,
           lte: 0.2,
-          color: '#2b41ff',
+          color: '#2946f5',
         },
         {
           gte: 0.2,
           lte: 0.4,
-          color: '#386dff',
+          color: '#406ef6',
         },
         {
           gte: 0.4,
           lte: 0.6,
-          color: '#3b9dff',
+          color: '#549cf7',
         },
         {
           gte: 0.6,
           lte: 0.8,
-          color: '#30cfff',
+          color: '#64ccf9',
         },
         {
           gte: 0.8,
           lte: 1,
-          color: '#00ffff',
+          color: '#72fbfd',
         },
         {
           gte: 1,
           lte: 1.2,
-          color: '#70ffdc',
+          color: '#96fbd4',
         },
         {
           gte: 1.2,
           lte: 1.4,
-          color: '#a1ffa4',
+          color: '#b7fcad',
         },
         {
           gte: 1.4,
           lte: 1.6,
-          color: '#c7ff78',
+          color: '#d2fc89',
         },
         {
           gte: 1.6,
           lte: 1.8,
-          color: '#e7ff4a',
+          color: '#fffe54',
         },
         {
           gte: 1.8,
           lte: 2,
-          color: '#ffff00',
+          color: '#fffd54',
         },
         {
           gte: 2,
           lte: 2.2,
-          color: '#ffd500',
+          color: '#f9d648',
         },
         {
           gte: 2.2,
           lte: 2.4,
-          color: '#ffac00',
+          color: '#f3ab3c',
         },
         {
           gte: 2.4,
           lte: 2.6,
-          color: '#ff7b00',
+          color: '#ef8232',
         },
         {
           gte: 2.6,
           lte: 2.8,
-          color: '#ff4d00',
+          color: '#ec5a29',
         },
         {
-          gte: 2.8,
-          color: '#923636',
+          gte: 3,
+          color: '#eb3324',
         }
       ],
+      outOfRange: {
+        color: '#2946f5'
+      },
       max: 3,
       hasAngle: true,
       hasChartKey: true,
@@ -312,11 +319,13 @@ export class ServersService {
           color: '#ff4d00',
         },
         {
-          gte: 34,
-          lte: 36,
+          gte: 36,
           color: '#ff0000',
         }
       ],
+      outOfRange: {
+        color: '#0000ff'
+      },
       max: 36,
       active: false
     },
@@ -415,11 +424,13 @@ export class ServersService {
           color: "#f73400",
         },
         {
-          gte: 34,
-          lte: 36,
+          gte: 36,
           color: "#f70000",
         }
       ],
+      outOfRange: {
+        color: '#39f700'
+      },
       max: 36,
       active: false
     },
@@ -511,6 +522,9 @@ export class ServersService {
           color: "#293cff",
         }
       ],
+      outOfRange: {
+        color: '#39f700'
+      },
       max: 4,
       hasChartKey: true,
       active: false

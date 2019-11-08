@@ -18,7 +18,7 @@
             <div class="video-list">
                 <div nz-row nzGutter="40">
                     <div nz-col nzSpan="6" *ngFor="let item of listData" style="margin-bottom: 40px;">
-                        <div (click)="playVideo(item)" style="padding: 0">
+                        <div (click)="playVideo(item)" class="video-wrapper">
                             <div class="video-thumb {{selectedType}}">
                             </div>
                             <div class="video-title">
