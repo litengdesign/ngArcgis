@@ -302,8 +302,8 @@ export class DataForecastComponent implements OnInit, AfterViewInit, OnDestroy {
       let categorieList = []; //x轴
       let dirAngleList = []; //角度
       let speedList = []; //曲线
-      this.listOfData.forEach((element:any) => {
-        if (element.dirAngle){
+      this.listOfData.forEach((element: any) => {
+        if (element.dirAngle) {
           dirAngleList.push(parseInt(element.dirAngle))
         }
         speedList.push(element.speed);
@@ -338,14 +338,14 @@ export class DataForecastComponent implements OnInit, AfterViewInit, OnDestroy {
         width: "680px",
         tooltip: {
           trigger: 'axis',
-          formatter:  (params) =>{
-            return params.length > 1?
-            [
-              this.selectedType.seriesRightName + '：' + params[0].value + this.selectedType.unit,
-              this.selectedType.seriesLeftName + '：' + params[1].value[dims.lable],
-              // '角度：' + params[1].value[dims.dirAngle],
-              '时间：' + params[1].value[dims.time],
-            ].join('<br>') 
+          formatter: (params) => {
+            return params.length > 1 ?
+              [
+                this.selectedType.seriesRightName + '：' + params[0].value + this.selectedType.unit,
+                this.selectedType.seriesLeftName + '：' + params[1].value[dims.lable],
+                // '角度：' + params[1].value[dims.dirAngle],
+                '时间：' + params[1].value[dims.time],
+              ].join('<br>')
               : [this.selectedType.seriesRightName + '：' + params[0].value + this.selectedType.unit, '时间：' + params[0].name].join('<br>');
           }
         },
@@ -368,7 +368,7 @@ export class DataForecastComponent implements OnInit, AfterViewInit, OnDestroy {
         grid: [{
           top: 30,
           left: 35,
-          bottom:10,
+          bottom: 10,
         }],
         xAxis: {
           type: 'category',
@@ -391,9 +391,7 @@ export class DataForecastComponent implements OnInit, AfterViewInit, OnDestroy {
             top: 0,
             right: 0,
             pieces: this.selectedType.pieces,
-            outOfRange: {
-              color: '#E20909'
-            },
+            outOfRange: this.selectedType.outOfRange,
             show: false,
             seriesIndex: 0,
           }
@@ -405,6 +403,7 @@ export class DataForecastComponent implements OnInit, AfterViewInit, OnDestroy {
     })
 
   }
+
   //箭头格式化
   renderArrow(param, api) {
     var point = api.coord([

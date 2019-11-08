@@ -431,9 +431,7 @@ export class CoastalComponent implements OnInit {
             top: 0,
             right: 0,
             pieces: this.selectedType.pieces,
-            outOfRange: {
-              color: '#E20909'
-            },
+            outOfRange: this.selectedType.outOfRange,
             show: false,
             seriesIndex: 0,
           },
