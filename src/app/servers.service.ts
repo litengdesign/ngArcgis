@@ -103,33 +103,43 @@ export class ServersService {
         },
         {
           gte: 1,
-          lte: 2,
+          lte: 1.5,
           color: '#bee8ff',
         },
         {
+          gte: 1.5,
+          lte: 2,
+          color: '#55C2EC',
+        },
+        {
           gte: 2,
+          lte: 2.5,
+          color: '#139ADE',
+        },
+        {
+          gte: 2.5,
           lte: 3,
-          color: '#55c2ed',
+          color: '#0073CB',
+        },
+        {
+          gte: 3,
+          lte: 3.5,
+          color: '#FEFF04',
+        },
+        {
+          gte: 3.5,
+          lte: 4,
+          color: '#FF5500',
         },
         {
           gte: 4,
-          lte: 6,
-          color: '#149bde',
-        },
-        {
-          gte: 6,
-          lte: 9,
-          color: '#0074cc',
-        },
-        {
-          gte: 14,
           color: '#ffff00',
         }
       ],
       outOfRange: {
         color: '#e6f0ff'
       },
-      max: 14,
+      max: 4,
       hasChart: true,
       hasChartKey: true,
       hasAngle: true,
@@ -147,81 +157,36 @@ export class ServersService {
       pieces: [
         {
           gte: 0,
-          lte: 0.2,
-          color: '#2946f5',
-        },
-        {
-          gte: 0.2,
           lte: 0.4,
-          color: '#406ef6',
+          color: '#293BFF',
         },
         {
           gte: 0.4,
-          lte: 0.6,
-          color: '#549cf7',
-        },
-        {
-          gte: 0.6,
           lte: 0.8,
-          color: '#64ccf9',
+          color: '#33C3FF',
         },
         {
           gte: 0.8,
-          lte: 1,
-          color: '#72fbfd',
-        },
-        {
-          gte: 1,
           lte: 1.2,
-          color: '#96fbd4',
+          color: '#1BF3FF',
         },
         {
           gte: 1.2,
-          lte: 1.4,
-          color: '#b7fcad',
-        },
-        {
-          gte: 1.4,
           lte: 1.6,
-          color: '#d2fc89',
+          color: '#C7FF78',
         },
         {
           gte: 1.6,
-          lte: 1.8,
-          color: '#fffe54',
-        },
-        {
-          gte: 1.8,
           lte: 2,
-          color: '#fffd54',
+          color: '#FEF300',
         },
         {
           gte: 2,
-          lte: 2.2,
-          color: '#f9d648',
-        },
-        {
-          gte: 2.2,
-          lte: 2.4,
-          color: '#f3ab3c',
-        },
-        {
-          gte: 2.4,
-          lte: 2.6,
-          color: '#ef8232',
-        },
-        {
-          gte: 2.6,
-          lte: 2.8,
-          color: '#ec5a29',
-        },
-        {
-          gte: 3,
-          color: '#eb3324',
+          color: '#FFA102',
         }
       ],
       outOfRange: {
-        color: '#2946f5'
+        color: '#293BFF'
       },
       max: 3,
       hasAngle: true,
