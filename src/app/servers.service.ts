@@ -34,53 +34,53 @@ export class ServersService {
       pieces: [
         {
           gte: 0,
-          lte: 4,
+          lte: 8,
           color: '#e6f0ff',
         },
         {
-          gte: 4,
-          lte: 5,
+          gte: 8,
+          lte: 10.7,
           color: '#d2e8ff',
         },
         {
-          gte: 5,
-          lte: 6,
+          gte: 10.7,
+          lte: 13.8,
           color: '#fae9d4',
         },
         {
-          gte: 6,
-          lte: 7,
+          gte: 13.8,
+          lte: 17.1,
           color: '#f0cab1',
         },
         {
-          gte: 7,
-          lte: 8,
+          gte: 17.1,
+          lte: 20.7,
           color: '#e6ad91',
         },
         {
-          gte: 8,
-          lte: 9,
+          gte: 20.7,
+          lte: 24.4,
           color: '#cc7958',
         },
         {
-          gte: 9,
-          lte: 10,
+          gte: 24.4,
+          lte: 28.4,
           color: '#c86437',
         },
         {
-          gte: 10,
-          lte: 11,
+          gte: 28.4,
+          lte: 32.6,
           color: '#be502a',
         },
         {
-          gte: 12,
+          gte: 32.6,
           color: '#a0351d',
         }
       ],
       outOfRange: {
         color: '#e6f0ff'
       },
-      max:12,
+      max: 33,
       hasChart:true,
       hasChartKey: true,
       hasAngle: true,
@@ -205,86 +205,61 @@ export class ServersService {
       pieces: [
         {
           gte: 0,
-          lte: 4,
-          color: '#0000ff',
+          lte: 5,
+          color: '#1800FF',
         },
         {
-          gte: 4,
-          lte: 6,
-          color: '#293cff',
-        },
-        {
-          gte: 6,
-          lte: 8,
-          color: '#3969ff',
-        },
-        {
-          gte: 8,
-          lte: 10,
-          color: '#3992ff',
-        },
-        {
-          gte: 10,
-          lte: 12,
-          color: '#31c3ff',
-        },
-        {
-          gte: 12,
-          lte: 14,
-          color: '#18f3ff',
-        },
-        {
-          gte: 14,
+          gte: 15,
           lte: 16,
-          color: '#5affe7',
+          color: '#3891FF',
         },
         {
           gte: 16,
+          lte: 17,
+          color: '#18F2FF',
+        },
+        {
+          gte: 17,
           lte: 18,
-          color: '#8cffbd',
+          color: '#59FFE7',
         },
         {
           gte: 18,
+          lte: 19,
+          color: '#B5FF8C',
+        },
+        {
+          gte: 19,
           lte: 20,
-          color: '#b5ff8c',
+          color: '#EFFF39',
         },
         {
           gte: 20,
+          lte: 21,
+          color: '#FFF500',
+        },
+        {
+          gte: 21,
           lte: 22,
-          color: '#d6ff63',
+          color: '#FFCB03',
         },
         {
           gte: 22,
+          lte: 23,
+          color: '#FEA200',
+        },
+        {
+          gte: 23,
           lte: 24,
-          color: '#efff39',
+          color: '#FF4C00',
         },
         {
           gte: 24,
-          lte: 26,
-          color: '#fff300',
+          lte: 25,
+          color: '#FE0000',
         },
         {
-          gte: 26,
-          lte: 28,
-          color: '#ffcb00',
-        },
-        {
-          gte: 28,
-          lte: 30,
-          color: '#ffa200',
-        },
-        {
-          gte: 30,
-          lte: 32,
-          color: '#ff7500',
-        },
-        {
-          gte: 32,
-          lte: 34,
-          color: '#ff4d00',
-        },
-        {
-          gte: 36,
+          gte: 25,
           color: '#ff0000',
         }
       ],
@@ -300,7 +275,7 @@ export class ServersService {
       mapServer: "SAL/MapServer",
       chartName: "salinity",
       icon: "iconGroup3",
-      unit: "‰",
+      unit: "",
       seriesRightName: '盐度',
       pieces: [
         {
@@ -405,7 +380,7 @@ export class ServersService {
       mapServer: "TIDE/MapServer",
       chartName: "tide",
       icon: "iconlang",
-      unit: "m",
+      unit: "cm",
       seriesRightName: '潮高',
       pieces: [
         {

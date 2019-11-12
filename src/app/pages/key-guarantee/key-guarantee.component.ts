@@ -288,7 +288,7 @@ export class KeyGuaranteeComponent implements OnInit {
           boundaryGap: false,
           data: categorieList,
           axisLabel: {
-            interval: 12,
+            interval: 11,
             formatter: function (value, index) {
               return value.substring(8, value.length)
             }

@@ -41,7 +41,7 @@
         <div class="pop-content">
             <div nz-row nzGutter="0">
                 <div nz-col nzSpan="24" nzOffset="0" style="font-weight: 500;">
-                    <span class="unit">{{selectedType.seriesRightName}}(单位：{{selectedType.unit}})</span>
+                    <span class="unit">{{selectedType.seriesRightName}} <ng-container *ngIf="selectedType.unit">(单位：{{selectedType.unit}})</ng-container></span>
                 </div>
                 <div nz-col nzSpan="24" nzOffset="0">
                     <!-- <app-highcharts [chartsObj]='chartData'></app-highcharts> -->

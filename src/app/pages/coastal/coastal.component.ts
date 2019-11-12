@@ -32,7 +32,7 @@ export interface VirtualDataInterface {
 export class CoastalComponent implements OnInit {
   public api_productpublishtime = "/jx/seaforecastpic/";//大面
   public api_chart = "/jx/seaforecast/";//曲线
-  public api_MapServer = "http://xxs.dhybzx.org:6086/arcgis/rest/services/";//地图服务
+  public api_MapServer = "https://xxs.dhybzx.org:6086/arcgis/rest/services/";//地图服务
   public isSpinning = true;
   public listOfData = [];
   public chartData: any = null;
@@ -415,7 +415,7 @@ export class CoastalComponent implements OnInit {
           data: categorieList,
           axisLabel: {
             color:'#222D65',
-            interval: 12,
+            interval: 11,
             formatter: function (value, index) {
               return value.substring(8, value.length)
             }

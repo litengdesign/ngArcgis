@@ -92,7 +92,7 @@ export class DataForecastComponent implements OnInit, AfterViewInit, OnDestroy {
       this.playTime = data[0].PUBLISHTIME;
       this.barList = [];
       // this.server.sublayerList = [];
-      for (var i = 0; i < 72; i++) {
+      for (var i = 0; i < 73; i++) {
         this.barList.push({
           active: i === 0 ? true : false,
           name: format(addHours(new Date(this.publishtime), i), 'dd日HH时'),
@@ -376,7 +376,7 @@ export class DataForecastComponent implements OnInit, AfterViewInit, OnDestroy {
           boundaryGap: false,
           data: categorieList,
           axisLabel: {
-            interval: 12,
+            interval: 11,
             formatter: function (value, index) {
               return value.substring(8, 10).replace(/\s*/g, "") + '日' + value.substring(10, value.length)
             }

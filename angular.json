@@ -10,7 +10,7 @@
           "style": "less"
         }
       },
-      "root": "jxweb/",
+      "root": "",
       "sourceRoot": "src",
       "prefix": "app",
       "architect": {
