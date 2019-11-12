@@ -35,7 +35,7 @@ export class ServersService {
         {
           gte: 0,
           lte: 8,
-          color: '#e6f0ff',
+          color: '#E5EFFE',
         },
         {
           gte: 8,
@@ -98,32 +98,32 @@ export class ServersService {
       pieces: [
         {
           gte: 0,
-          lte: 1,
+          lte: 0.5,
           color: '#e6f0ff',
+        },
+        {
+          gte: 0.5,
+          lte: 1,
+          color: '#bee8ff',
         },
         {
           gte: 1,
           lte: 1.5,
-          color: '#bee8ff',
+          color: '#55C2EC',
         },
         {
           gte: 1.5,
           lte: 2,
-          color: '#55C2EC',
+          color: '#139ADE',
         },
         {
           gte: 2,
           lte: 2.5,
-          color: '#139ADE',
+          color: '#0073CB',
         },
         {
           gte: 2.5,
           lte: 3,
-          color: '#0073CB',
-        },
-        {
-          gte: 3,
-          lte: 3.5,
           color: '#FEFF04',
         },
         {
