@@ -425,6 +425,8 @@ export class CoastalComponent implements OnInit {
           // max: this.selectedType.max,
           // name: this.selectedType.name + "(" + this.selectedType.unit + ")",
           type: 'value',
+          min: this.selectedType.name == '海温' ? 15 : null,
+          max: this.selectedType.name == '海温' ? 25 : null
         },
         visualMap: [
           {
