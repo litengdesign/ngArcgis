@@ -124,7 +124,7 @@ export class DataForecastComponent implements OnInit, AfterViewInit, OnDestroy {
           this.server.layer.sublayers.items[0].visible = true;
           this.barList = [];
           // this.server.sublayerList = [];
-          let sublayerLen = this.server.layer.sublayers.length > 73 ? 72 : this.server.layer.sublayers.length;
+          let sublayerLen = this.server.layer.sublayers.length > 72 ? 72 : this.server.layer.sublayers.length;
           for (var i = 0; i < sublayerLen; i++) {
             this.barList.push({
               active: i === 0 ? true : false,

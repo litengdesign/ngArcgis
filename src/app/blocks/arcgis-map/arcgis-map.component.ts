@@ -28,13 +28,13 @@ export class ArcgisMapComponent implements OnInit {
       // dba355508086fb3d8a49c74ca6971afd
       //天地图
       var tdtLayer = new TDTLayer({
-        urlTemplate: "http://t0.tianditu.gov.cn/DataServer?T=vec_w&x={col}&y={row}&l={level}&tk=dba355508086fb3d8a49c74ca6971afd",
+        urlTemplate: "http://t0.tianditu.gov.cn/DataServer?T=vec_w&x={col}&y={row}&l={level}&tk=df97ab6ec21a7baa838a4833eddf35ae",
       });
       //天地图标识
       var annoTDTLayer = new TDTLayer({
         id: "anooMarkerLayer",
         title: "anooMarkerLayer",
-        urlTemplate: "http://t0.tianditu.gov.cn/DataServer?T=cva_w&x={col}&y={row}&l={level}&tk=dba355508086fb3d8a49c74ca6971afd",
+        urlTemplate: "http://t0.tianditu.gov.cn/DataServer?T=cva_w&x={col}&y={row}&l={level}&tk=df97ab6ec21a7baa838a4833eddf35ae",
       })
       this.server.map = new Map({
         basemap: {

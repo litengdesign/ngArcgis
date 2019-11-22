@@ -9,7 +9,7 @@ import { DefaultComponent2Component } from './layout/default-component2/default-
 const routes: Routes = [
   {
     path: '',
-    component: DefaultComponent,
+    component: DefaultComponent2Component,
     children: [
       { path: '', redirectTo: 'dataForecast', pathMatch: 'full' },
       {
