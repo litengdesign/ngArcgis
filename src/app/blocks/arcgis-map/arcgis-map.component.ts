@@ -23,15 +23,18 @@ export class ArcgisMapComponent implements OnInit {
       "esri/views/MapView",
       "extras/TDTLayer",
     ]).then(([Map, MapView, TDTLayer]) => {
+      // jiaxin 44407920251c35ea7e90953fed95f563
+      // jxweb key df97ab6ec21a7baa838a4833eddf35ae
+      // dba355508086fb3d8a49c74ca6971afd
       //天地图
       var tdtLayer = new TDTLayer({
-        urlTemplate: "http://t0.tianditu.gov.cn/DataServer?T=vec_w&x={col}&y={row}&l={level}&tk=44407920251c35ea7e90953fed95f563",
+        urlTemplate: "http://t0.tianditu.gov.cn/DataServer?T=vec_w&x={col}&y={row}&l={level}&tk=dba355508086fb3d8a49c74ca6971afd",
       });
       //天地图标识
       var annoTDTLayer = new TDTLayer({
         id: "anooMarkerLayer",
         title: "anooMarkerLayer",
-        urlTemplate: "http://t0.tianditu.gov.cn/DataServer?T=cva_w&x={col}&y={row}&l={level}&tk=44407920251c35ea7e90953fed95f563",
+        urlTemplate: "http://t0.tianditu.gov.cn/DataServer?T=cva_w&x={col}&y={row}&l={level}&tk=dba355508086fb3d8a49c74ca6971afd",
       })
       this.server.map = new Map({
         basemap: {

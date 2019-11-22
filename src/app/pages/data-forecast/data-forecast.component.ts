@@ -14,7 +14,6 @@ let dims = {
 let arrowSize = 18;
 let directionMap = {};
 echarts.util.each(
-  // ['N', 'NNE', 'NE', 'ENE', 'E', 'ESE', 'SE', 'SSE', 'S', 'SSW', 'SW', 'WSW', 'W', 'WNW', 'NW', 'NNW'],
   ['W', 'WSW', 'SW', 'SSW', 'S', 'SSE', 'SE', 'ESE', 'E', 'ENE', 'NE', 'NNE', 'N', 'NNW', 'NW', 'WNW'],
    (name, index)=> {
     directionMap[name] = Math.PI / 8 * index;
@@ -90,15 +89,6 @@ export class DataForecastComponent implements OnInit, AfterViewInit, OnDestroy {
     this.server.getRxjsData(options).subscribe((data) => {
       this.publishtime = data[0].PUBLISHTIME;
       this.playTime = data[0].PUBLISHTIME;
-      this.barList = [];
-      // this.server.sublayerList = [];
-      for (var i = 0; i < 73; i++) {
-        this.barList.push({
-          active: i === 0 ? true : false,
-          name: format(addHours(new Date(this.publishtime), i), 'dd日HH时'),
-          date: addHours(new Date(this.publishtime), i)
-        });
-      }
     })
     //刷新图层
     loadModules([
@@ -130,7 +120,17 @@ export class DataForecastComponent implements OnInit, AfterViewInit, OnDestroy {
       this.server.view.whenLayerView(this.server.layer)
         .then(() => {
           //设置0时刻显示
-          this.server.layer.allSublayers.items[0].visible = true;
+          // this.server.layer.allSublayers.items[0].visible = true;
+          this.server.layer.sublayers.items[0].visible = true;
+          this.barList = [];
+          // this.server.sublayerList = [];
+          for (var i = 0; i < this.server.layer.sublayers.length; i++) {
+            this.barList.push({
+              active: i === 0 ? true : false,
+              name: format(addHours(new Date(this.publishtime), i), 'dd日HH时'),
+              date: addHours(new Date(this.publishtime), i)
+            });
+          }
           this.isSpinning = false;
           // 绑定点击事件
           this.server.view.on("click", ($event) => {
@@ -335,7 +335,7 @@ export class DataForecastComponent implements OnInit, AfterViewInit, OnDestroy {
       }
       let obj = {
         height: "186px",
-        width: "680px",
+        width: "620px",
         tooltip: {
           trigger: 'axis',
           formatter: (params) => {
@@ -367,7 +367,8 @@ export class DataForecastComponent implements OnInit, AfterViewInit, OnDestroy {
         }],
         grid: [{
           top: 30,
-          left: 35,
+          left: 30,
+          right: 30,
           bottom: 10,
         }],
         xAxis: {
@@ -377,7 +378,11 @@ export class DataForecastComponent implements OnInit, AfterViewInit, OnDestroy {
           data: categorieList,
           axisLabel: {
             interval: 11,
-            formatter: function (value, index) {
+            fontSize:12,
+            textStyle: {
+              fontSize: 11
+            },
+            formatter:  (value,index)=> {
               return value.substring(8, 10).replace(/\s*/g, "") + '日' + value.substring(10, value.length)
             }
           }

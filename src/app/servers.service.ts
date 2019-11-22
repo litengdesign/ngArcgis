@@ -154,39 +154,46 @@ export class ServersService {
       unit: "m/s",
       seriesLeftName: '流向',
       seriesRightName: '流速',
-      pieces: [
+      pieces:[
         {
           gte: 0,
-          lte: 0.4,
-          color: '#293BFF',
-        },
-        {
-          gte: 0.4,
-          lte: 0.8,
-          color: '#33C3FF',
-        },
-        {
-          gte: 0.8,
-          lte: 1.2,
-          color: '#1BF3FF',
-        },
-        {
-          gte: 1.2,
-          lte: 1.6,
-          color: '#C7FF78',
-        },
-        {
-          gte: 1.6,
-          lte: 2,
-          color: '#FEF300',
-        },
-        {
-          gte: 2,
-          color: '#FFA102',
+          lte: 100,
+          color: '#e6f0ff',
         }
       ],
+      // pieces: [
+      //   {
+      //     gte: 0,
+      //     lte: 0.4,
+      //     color: '#293BFF',
+      //   },
+      //   {
+      //     gte: 0.4,
+      //     lte: 0.8,
+      //     color: '#33C3FF',
+      //   },
+      //   {
+      //     gte: 0.8,
+      //     lte: 1.2,
+      //     color: '#1BF3FF',
+      //   },
+      //   {
+      //     gte: 1.2,
+      //     lte: 1.6,
+      //     color: '#C7FF78',
+      //   },
+      //   {
+      //     gte: 1.6,
+      //     lte: 2,
+      //     color: '#FEF300',
+      //   },
+      //   {
+      //     gte: 2,
+      //     color: '#FFA102',
+      //   }
+      // ],
       outOfRange: {
-        color: '#293BFF'
+        color: '#e6f0ff'
       },
       max: 3,
       hasAngle: true,
@@ -199,7 +206,7 @@ export class ServersService {
       mapServer: "TEMP/MapServer",
       chartName: "sst",
       icon: "iconGroup1",
-      unit: "°",
+      unit: "℃",
       seriesRightName: '海温',
       hasChart: true,
       pieces: [

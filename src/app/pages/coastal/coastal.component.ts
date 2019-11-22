@@ -374,7 +374,7 @@ export class CoastalComponent implements OnInit {
       }
       let obj = {
         height: "186px",
-        width:"680px",
+        width:"620px",
         left: 0,
         tooltip: {
           trigger: 'axis',
@@ -407,7 +407,8 @@ export class CoastalComponent implements OnInit {
         }],
         grid: [{
           top: 30,
-          left: 35,
+          left: 30,
+          right: 30,
         }],
         xAxis: {
           type: 'category',
@@ -416,6 +417,7 @@ export class CoastalComponent implements OnInit {
           axisLabel: {
             color:'#222D65',
             interval: 11,
+            fontSize: 12,
             formatter: function (value, index) {
               return value.substring(8, value.length)
             }

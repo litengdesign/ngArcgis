@@ -248,7 +248,7 @@ export class KeyGuaranteeComponent implements OnInit {
       }
       let obj = {
         height: "186px",
-        width: "680px",
+        width: "620px",
         top:0,
         tooltip: {
           trigger: 'axis',
@@ -280,8 +280,8 @@ export class KeyGuaranteeComponent implements OnInit {
         }],
         grid: [{
           top: 30,
-          left: 35,
-          right: 35,
+          left: 30,
+          right: 30,
         }],
         xAxis: {
           type: 'category',
@@ -289,6 +289,7 @@ export class KeyGuaranteeComponent implements OnInit {
           data: categorieList,
           axisLabel: {
             interval: 11,
+            fontSize: 12,
             formatter: function (value, index) {
               return value.substring(8, value.length)
             }

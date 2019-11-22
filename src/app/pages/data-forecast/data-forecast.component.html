@@ -76,7 +76,7 @@
         </div>
     </div>
     <!-- 色卡 -->
-    <div class="colorCard">
+    <div class="colorCard" *ngIf="selectedType.type!='CURRENT'">
         <img src="../../../assets/images/{{selectedType.type}}.png" alt="">
     </div>
 </div>

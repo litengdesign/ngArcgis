@@ -33,10 +33,54 @@
                     <tbody>
                         <tr *ngFor="let data of tideList" style="text-align: center;">
                             <td nzWidth="128px">{{data.CHROTIME }}</td>
-                            <td nzWidth="128px"><span style="margin-right: 10px;">{{(data.CHROTIME+' '+data.TIDEHTIME1)| date:'HH时mm分'}}</span>{{data.TIDEH1}}cm</td>
-                            <td nzWidth="128px"><span style="margin-right: 10px;">{{(data.CHROTIME+' '+data.TIDEHTIME2)| date:'HH时mm分'}}</span>{{data.TIDEH2}}cm</td>
-                            <td nzWidth="128px"><span style="margin-right: 10px;">{{(data.CHROTIME+' '+data.TIDELTIME1)| date:'HH时mm分'}}</span>{{data.TIDEL1}}cm</td>
-                            <td nzWidth="128px"><span style="margin-right: 10px;">{{(data.CHROTIME+' '+data.TIDELTIME2)| date:'HH时mm分'}}</span>{{data.TIDEL2}}cm</td>
+                            <td nzWidth="128px">
+                                <span style="margin-right: 10px;">
+                                    <ng-container *ngIf="data.TIDEHTIME1=='**:**'">
+                                        **:**
+                                    </ng-container>
+                                    <ng-container *ngIf="data.TIDEHTIME1!='**:**'">
+                                        {{(data.CHROTIME+' '+data.TIDEHTIME1)| date:'HH时mm分'}}
+                                    </ng-container>
+                                 </span>
+                                <ng-container *ngIf="data.TIDEH1=='*'">*</ng-container>
+                                <ng-container *ngIf="data.TIDEH1!='*'">{{data.TIDEH1}}cm</ng-container>
+                            </td>
+                            <td nzWidth="128px">
+                                <span style="margin-right: 10px;">
+                                    <ng-container *ngIf="data.TIDEHTIME2=='**:**'">
+                                        **:**
+                                    </ng-container>
+                                    <ng-container *ngIf="data.TIDEHTIME2!='**:**'">
+                                        {{(data.CHROTIME+' '+data.TIDEHTIME2)| date:'HH时mm分'}}
+                                    </ng-container>
+                                </span>
+                                <ng-container *ngIf="data.TIDEH2=='*'">*</ng-container>
+                                <ng-container *ngIf="data.TIDEH2!='*'">{{data.TIDEH2}}cm</ng-container>
+                            </td>
+                            <td nzWidth="128px">
+                                <span style="margin-right: 10px;">
+                                    <ng-container *ngIf="data.TIDELTIME1=='**:**'">
+                                        **:**
+                                    </ng-container>
+                                    <ng-container *ngIf="data.TIDELTIME1!='**:**'">
+                                        {{(data.CHROTIME+' '+data.TIDELTIME1)| date:'HH时mm分'}}
+                                    </ng-container>
+                                </span>
+                                <ng-container *ngIf="data.TIDEL1=='*'">*</ng-container>
+                                <ng-container *ngIf="data.TIDEL1!='*'">{{data.TIDEL1}}cm</ng-container>
+                            </td>
+                            <td nzWidth="128px">
+                                <span style="margin-right: 10px;">
+                                    <ng-container *ngIf="data.TIDELTIME2=='**:**'">
+                                        **:**
+                                    </ng-container>
+                                    <ng-container *ngIf="data.TIDELTIME2!='**:**'">
+                                        {{(data.CHROTIME+' '+data.TIDELTIME2)| date:'HH时mm分'}}
+                                    </ng-container>
+                                </span>
+                                <ng-container *ngIf="data.TIDEL2=='*'">*</ng-container>
+                                <ng-container *ngIf="data.TIDEL2!='*'">{{data.TIDEL2}}cm</ng-container>
+                            </td>
                         </tr>
                     </tbody>
                 </nz-table>
