@@ -45,7 +45,8 @@
                 </div>
                 <div nz-col nzSpan="24" nzOffset="0">
                     <!-- <app-highcharts [chartsObj]='chartData'></app-highcharts> -->
-                    <nz-spin nzTip="加载中..." [nzSpinning]="isLoading"><app-echarts [chartOption]='chartData'></app-echarts></nz-spin>
+                    <nz-spin nzTip="加载中..." [nzSpinning]="isLoading">
+                        <app-echarts [chartOption]='chartData'></app-echarts></nz-spin>
                 </div>
                 <!-- <div nz-col nzSpan="24" nzOffset="0">
                     <nz-table #basicTable nzVirtualScroll [nzVirtualItemSize]="54" [nzData]="listOfData"
